@@ -4,12 +4,12 @@ import jakarta.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Table(name = "rooms")
+@Table(name = "Rooms")
 public class Room {
 
     @Id
     @Column(name = "number")
-    private int roomNumber;
+    private Integer roomNumber;
     @Column(name = "base_price_per_night")
     private double basePricePerNight;
     @Column(name = "bed_count")
@@ -21,7 +21,7 @@ public class Room {
         this.bedCount = bedCount;
     }
 
-    public int getRoomNumber() {
+    public Integer getRoomNumber() {
         return roomNumber;
     }
 

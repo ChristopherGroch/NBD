@@ -1,6 +1,7 @@
 package org.example;
 
 import Client.*;
+import Repository.RoomRepository;
 import Room.*;
 import Reservation.*;
 import jakarta.persistence.EntityManager;
@@ -9,6 +10,7 @@ import jakarta.persistence.Persistence;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.UUID;
 
 public class Main {
@@ -35,13 +37,24 @@ public class Main {
 
 
 
-        Room pokoj = new Room(4,2,3);
+        Room room = new Room(1,2,3);
+        Room room2 = new Room(2,5,6);
+        Room room3 = new Room(3,10,2);
+        RoomRepository RR = new RoomRepository();
+        RR.setEm(em);
+        RR.save(room);
+        RR.save(room2);
+        RR.save(room3);
+
+        List<Room> rooms = RR.getAllRecords();
+        rooms.get(1).setBedCount(100);
+        System.out.println(em.find(Room.class,2).getInfo());
+
         Client client = new Client("Miłosz","Wojtaszczyk","42069",new Standard());
-        Reservation reservation = new Reservation(Reservation.ExtraBonus.B,2,4,UUID.randomUUID(), LocalDateTime.of(2023, 10, 13, 11, 30),pokoj,client);
+        Reservation reservation = new Reservation(Reservation.ExtraBonus.B,2,4,UUID.randomUUID(), LocalDateTime.of(2023, 10, 13, 11, 30),room,client);
         System.out.println(reservation.getInfo());
         em.getTransaction().begin();
         em.persist(client);
-        em.persist(pokoj);
         em.persist(reservation);
         em.getTransaction().commit();
         System.out.println(reservation.getExtraBonus());

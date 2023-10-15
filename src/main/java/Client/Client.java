@@ -11,7 +11,7 @@ public class Client {
     private boolean archive;
     private double bill;
     //    @Convert(converter = ClientTypeConverter.class)
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "clientTypeID")
     private ClientType clientType;
 
