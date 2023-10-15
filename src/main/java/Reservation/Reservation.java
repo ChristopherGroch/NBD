@@ -3,6 +3,8 @@ package Reservation;
 import Room.Room;
 import Client.*;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -28,9 +30,11 @@ public class Reservation {
     private LocalDateTime beginTime;
     @ManyToOne
     @JoinColumn(name = "room_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Room room;
-    @ManyToOne
+    @ManyToOne//(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cleint_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Client client;
     public Reservation() {}
 
@@ -90,6 +94,10 @@ public class Reservation {
     public Client getClient() {
         return client;
     }
+
+//    public void setClient(Client c){
+//        this.client = c;
+//    }
     public String getInfo(){
         return "\n--------------------------------------------------------------------------------------------------\n"
         + "Reservation id: " + id.toString() + ", number of guests: " + guestCount

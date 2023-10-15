@@ -7,6 +7,7 @@ import Reservation.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import Managers.*;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TEST_MWJS_NBD");
         EntityManager em = emf.createEntityManager();
 //        Room room = new Room(3,4,2);
@@ -58,5 +59,26 @@ public class Main {
         em.persist(reservation);
         em.getTransaction().commit();
         System.out.println(reservation.getExtraBonus());
+        client.setClientType(new LongTerm());
+
+//        em.getTransaction().begin();
+//        em.remove(client);
+//        em.getTransaction().commit();
+
+        RoomManager RM = new RoomManager();
+        RM.setEm(em);
+//        try{
+        RM.registerRoomWithPool(5,6,7,8,9,10);
+        RM.registerRoomWithTerrace(6,7,8,9);
+        for(Room r:RM.getAllRooms())
+        {
+            System.out.println(r.getInfo());//        } catch (Exception e) {
+        }
+//        RM.deleteRoom(room);
+        //RM.registerRoom(5,2,3);
+//            System.out.println(e.getMessage());
+//        }
+
+
     }
 }
