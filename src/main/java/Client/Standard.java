@@ -1,12 +1,18 @@
 package Client;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class Standard extends ClientType {
+    private int maxDays = 14;
+    private boolean discount = true;
+
     public int getMaxDays() {
-        return 14;
+        return maxDays;
     }
 
     public boolean applyDiscount() {
-        return true;
+        return discount;
     }
 
     public String getClientInfo() {

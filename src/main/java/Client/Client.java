@@ -1,6 +1,7 @@
 package Client;
 
 import jakarta.persistence.*;
+
 @Entity
 public class Client {
     private String firstName;
@@ -9,12 +10,15 @@ public class Client {
     private String personalID;
     private boolean archive;
     private double bill;
-    @Convert(converter = ClientTypeConverter.class)
+    //    @Convert(converter = ClientTypeConverter.class)
+    @ManyToOne
+    @JoinColumn(name = "clientTypeID")
     private ClientType clientType;
 
-    public Client(){
+    public Client() {
 
     }
+
     public Client(String firstName, String lastName, String personalID, ClientType clientType) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -73,11 +77,11 @@ public class Client {
         this.clientType = clientType;
     }
 
-    public int getMaxDays(){
+    public int getMaxDays() {
         return getClientType().getMaxDays();
     }
 
-    public boolean acceptDiscount(){
+    public boolean acceptDiscount() {
         return getClientType().applyDiscount();
     }
 

@@ -1,12 +1,20 @@
 package Client;
 
+import jakarta.persistence.*;
+
+//@DiscriminatorValue("ShortTerm")
+@Entity
 public class ShortTerm extends ClientType {
+
+    private int maxDays = 2;
+    private boolean discount = false;
+
     public int getMaxDays() {
-        return 2;
+        return maxDays;
     }
 
     public boolean applyDiscount() {
-        return false;
+        return discount;
     }
 
     public String getClientInfo() {
