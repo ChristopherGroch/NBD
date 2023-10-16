@@ -52,7 +52,8 @@ public class Main {
         System.out.println(em.find(Room.class,2).getInfo());
 
         Client client = new Client("Miłosz","Wojtaszczyk","42069",new Standard());
-        Reservation reservation = new Reservation(Reservation.ExtraBonus.B,2,4,UUID.randomUUID(), LocalDateTime.of(2023, 10, 13, 11, 30),room,client);
+        Reservation reservation = new Reservation(Reservation.ExtraBonus.B,2,65,UUID.randomUUID(), LocalDateTime.of(2023, 10, 13, 11, 30),room,client);
+        reservation.setActive(false);
         System.out.println(reservation.getInfo());
         em.getTransaction().begin();
         em.persist(client);
@@ -78,7 +79,8 @@ public class Main {
         //RM.registerRoom(5,2,3);
 //            System.out.println(e.getMessage());
 //        }
-
-
+        ReservationManager reservationManager = new ReservationManager();
+        reservationManager.setEntityManager(em);
+        reservationManager.registerReservation(Reservation.ExtraBonus.A, 3, 30, UUID.randomUUID(), LocalDateTime.of(2023, 10, 9, 11, 30), room, client);
     }
 }

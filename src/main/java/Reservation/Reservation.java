@@ -28,6 +28,7 @@ public class Reservation {
     private UUID id;
     private double totalResrvationCost;
     private LocalDateTime beginTime;
+    private boolean isActive;
     @ManyToOne
     @JoinColumn(name = "room_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -47,6 +48,7 @@ public class Reservation {
         this.room = room;
         this.client = client;
         this.totalResrvationCost = 0;
+        this.isActive = true;
     }
 
     public ExtraBonus getExtraBonus() {
@@ -81,6 +83,11 @@ public class Reservation {
             return ideal.plusHours(getReservationDays() * 24);
         }
     }
+
+    public void setTotalResrvationCost(double totalResrvationCost) {
+        this.totalResrvationCost = totalResrvationCost;
+    }
+
     public double calculateBaseReservationCost() {
         return getPricePerNight()*getReservationDays();
     }
@@ -89,6 +96,14 @@ public class Reservation {
     }
     public Room getRoom() {
         return room;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public Client getClient() {
@@ -107,5 +122,9 @@ public class Reservation {
         + "\nExtra bonuses: " + getExtraBonus() + " Final price per night: " + getPricePerNight()
         + "\n--------------------------------------------------------------------------------------------------\n";
 
+    }
+
+    public void cancelReservation(Reservation reservation){
+        reservation.setActive(false);
     }
 }
