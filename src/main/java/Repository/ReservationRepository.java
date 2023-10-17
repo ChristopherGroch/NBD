@@ -56,26 +56,6 @@ public class ReservationRepository implements Repository<Reservation, UUID> {
         return reservations;
     }
 
-//    public List<Reservation> getAllActive(){
-//        TypedQuery<Reservation> query = em.createQuery("SELECT r from Reservation r WHERE isActive is TRUE",Reservation.class);
-//        List<Reservation> reservations = query.getResultList();
-//        for(Reservation r :reservations){
-//            em.detach(r);
-//        }
-//        return reservations;
-//    }
-//
-//    public List<Reservation> getAllActiveWithRoomID(int searchedRoomNumber) {
-//        TypedQuery<Reservation> query = em.createQuery(
-//                "SELECT r FROM Reservation r WHERE isActive is TRUE AND room.roomNumber = :roomNumber", Reservation.class);
-//        query.setParameter("roomNumber", searchedRoomNumber);
-//        List<Reservation> result = query.getResultList();
-//        for (Reservation r : result) {
-//            em.detach(r);
-//        }
-//        return result;
-//    }
-
     public List<Reservation> getAllArchive(String ID){
         TypedQuery<Reservation> query = em.createQuery(
                 "SELECT r FROM Reservation r WHERE isActive is FALSE AND r.client.id = :personID", Reservation.class);
