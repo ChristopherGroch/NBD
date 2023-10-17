@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 
 @Entity
 public class Client {
+
+    @Version
+    private long version;
     private String firstName;
     private String lastName;
     @Id
@@ -12,7 +15,7 @@ public class Client {
     private double bill;
     //    @Convert(converter = ClientTypeConverter.class)
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "clientTypeID")
+    @JoinColumn(name = "type")
     private ClientType clientType;
 
     public Client() {

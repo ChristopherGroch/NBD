@@ -1,9 +1,6 @@
 package Managers;
 
-import Client.Client;
-import Client.ClientType;
-import Client.LongTerm;
-import Client.Standard;
+import Client.*;
 import Repository.ClientRepository;
 import jakarta.persistence.EntityManager;
 
@@ -15,6 +12,7 @@ public class ClientManager {
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
+        this.clients = new ClientRepository();
         this.clients.setEm(this.entityManager);
     }
 
@@ -24,7 +22,12 @@ public class ClientManager {
 
     public void registerClient(String fName, String lName, String pID, ClientType clientType) throws Exception {
         if (clients.getByKey(pID) == null) {
-            Client client = new Client(fName, lName, pID, clientType);
+            ClientType  type = entityManager.find(clientType.getClass(), clientType.getClientInfo());
+            if (type == null) {
+                type = clientType;
+            }
+
+            Client client = new Client(fName, lName, pID, type);
             clients.save(client);
         } else {
             throw new Exception("Client with this ID already exists");
@@ -33,35 +36,73 @@ public class ClientManager {
 
     public void changeClientTypeToStandard(String ID) throws Exception {
         Client client = clients.getByKey(ID);
-        if (client.getClientType().getClientInfo() != "ShortTerm") {
-            client.setClientType(new Standard());
-            clients.save(client);
+        if (client != null) {
+            if (client.getClientType().getClientInfo().equals("ShortTerm")) {
+                client.setClientType(new Standard());
+                clients.save(client);
+            } else {
+                throw new Exception("Downgrade is not permitted");
+            }
         } else {
-            throw new Exception("Downgrade is not permitted");
+            throw new Exception("No client with this ID");
         }
+
     }
 
     public void changeClientTypeToLongTerm(String ID) throws Exception {
         Client client = clients.getByKey(ID);
-        if (client.getInfo() != "LongTerm") {
-            client.setClientType(new LongTerm());
-            clients.save(client);
+        if (client != null){
+            if (!client.getClientType().getClientInfo().equals("LongTerm")) {
+                client.setClientType(new LongTerm());
+                clients.save(client);
+            } else {
+                throw new Exception("Downgrade is not permitted");
+            }
         } else {
-            throw new Exception("Downgrade is not permitted");
+            throw new Exception("No client with this ID");
         }
+
 
     }
 
     public Client getClientByID(String pID) {
-        return clients.getByKey(pID);
+        Client client =  clients.getByKey(pID);
+        entityManager.detach(client);
+        return client;
     }
 
     public List<Client> getAllClients() {
+        List<Client> clientsList = clients.getAllRecords();
+        for(Client c :clientsList){
+            entityManager.detach(c);
+        }
         return clients.getAllRecords();
     }
 
-    public void deleteClient(Client client) {
+    public void deleteClient(String pID) {
+        Client client = clients.getByKey(pID);
         clients.delete(client);
+    }
+
+    public void unregisterClient(String pID) {
+        Client client = clients.getByKey(pID);
+        client.setArchive(true);
+        clients.save(client);
+    }
+
+    public void clientPaysForBill(String pID,double x) {
+        Client client = clients.getByKey(pID);
+        client.setBill(Math.round((client.getBill() + x)*100)/100.0);
+        clients.save(client);
+    }
+    public void chargeClientBill(String pID,double x) {
+        Client client = clients.getByKey(pID);
+        client.setBill(Math.round((client.getBill() - x)*100)/100.0);
+        System.out.println(client.getBill());
+    }
+
+    public Client getClientInPersistenceContext(String pID){
+        return clients.getByKey(pID);
     }
 
 }

@@ -6,51 +6,74 @@ import Reservation.Reservation;
 import Reservation.Reservation.ExtraBonus;
 import Room.Room;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class ReservationManager {
     private ReservationRepository reservations;
     private EntityManager entityManager;
+    private ClientManager clientManager;
+    private RoomManager roomManager;
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
+        this.reservations = new ReservationRepository();
         this.reservations.setEm(this.entityManager);
+    }
+
+    public void setClientManager(ClientManager clientManager) {
+        this.clientManager = clientManager;
+        this.clientManager.setEntityManager(entityManager);
+    }
+    public void setRoomManager(RoomManager roomManager) {
+        this.roomManager = roomManager;
+        this.roomManager.setEntityManager(entityManager);
     }
 
     public ReservationManager() {
         reservations = new ReservationRepository();
     }
 
-    public void registerReservation(ExtraBonus extraBonus, int guestCount, int reservationDays, UUID id, LocalDateTime beginTime, Room room, Client client) throws Exception {
-        if (reservations.getByKey(id) != null) {
-            throw new Exception("Reservation with this ID already exists!");
-        } else if (guestCount > room.getBedCount()) {
-            throw new Exception("Not enough beds in this room!");
-        } else {
-            for (Reservation r : reservations.getAllActiveWithRoomID(room.getRoomNumber())) {
-                if (beginTime.isBefore(r.getEndTime()) && beginTime.plusDays(reservationDays).isAfter(r.getBeginTime())) {
-                    throw new Exception("Reservations for this room are overlapping");
-                }
+    public void registerReservation(ExtraBonus extraBonus, int guestCount, int reservationDays, UUID id, Integer roomID, String clientID) throws Exception {
+        try {
+            entityManager.getTransaction().begin();
+            Room room = roomManager.getRoomInPersistenceContext(roomID);
+            Client client = clientManager.getClientInPersistenceContext(clientID);
+            if (room == null) {
+                throw new Exception("No room with this ID!");
+            } else if (client == null) {
+                throw new Exception("No client with this ID!");
+            } else if (guestCount > room.getBedCount()) {
+                throw new Exception("Not enough beds in this room!");
+            } else if (room.isUsed()) {
+                throw new Exception("Room is already used!");
+            } else if (client.getMaxDays() < reservationDays) {
+                throw new Exception("Client can't start that long reservations");
             }
-            if (reservationDays <= client.getMaxDays()) {
-                Reservation reservation = new Reservation(extraBonus, guestCount, reservationDays, id, beginTime, room, client);
-                double price;
-                reservation.setTotalResrvationCost(reservation.calculateBaseReservationCost());
-                if (reservation.getClient().acceptDiscount()) {
-                    price = reservation.getTotalResrvationCost() * (1 - calculateDiscount(reservation.getClient()));
-                } else {
-                    price = reservation.getTotalResrvationCost();
-                }
-                reservation.setTotalResrvationCost(price);
-                reservation.getClient().setBill(reservation.getClient().getBill() - reservation.getTotalResrvationCost());
-                reservations.save(reservation);
-            } else {
-                throw new Exception("Reservation is too long");
+
+            entityManager.lock(room,LockModeType.OPTIMISTIC);
+            entityManager.lock(client,LockModeType.OPTIMISTIC_FORCE_INCREMENT);
+            roomManager.changeUsed(room.getRoomNumber());
+            Reservation reservation = new Reservation(extraBonus,guestCount,reservationDays,LocalDateTime.now(),room,client);
+            double price = reservation.calculateBaseReservationCost();
+            if (client.acceptDiscount()) {
+                price = Math.round(price * (1 - calculateDiscount(client)) * 100) / 100.0;
             }
+            reservation.setTotalResrvationCost(price);
+            System.out.println(price);
+            clientManager.chargeClientBill(clientID,price);
+            reservations.save(reservation);
+            entityManager.getTransaction().commit();
+        } catch (Exception e){
+            entityManager.getTransaction().rollback();
+            throw e;
         }
     }
+
 
     public double calculateDiscount(Client client) {
         double discount = 0;
@@ -70,7 +93,33 @@ public class ReservationManager {
 
     public void endReservation(UUID id) {
         Reservation reservation = reservations.getByKey(id);
-        reservation.setActive(false);
-        reservations.save(reservation);
+        try {
+            entityManager.getTransaction().begin();
+            reservation.setActive(false);
+            reservations.save(reservation);
+            roomManager.changeUsed(reservation.getRoom().getRoomNumber());
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw e;
+        }
+    }
+
+    public void deleteReservation(UUID id){
+        Reservation reservation = reservations.getByKey(id);
+        reservations.delete(reservation);
+    }
+    public Reservation getReservation(UUID id){
+        Reservation reservation = reservations.getByKey(id);
+        entityManager.detach(reservation);
+        return reservation;
+    }
+
+    public List<Reservation> getAllReservations(){
+        List<Reservation> reservationsList = reservations.getAllRecords();
+        for(Reservation r : reservationsList){
+            entityManager.detach(r);
+        }
+        return reservationsList;
     }
 }

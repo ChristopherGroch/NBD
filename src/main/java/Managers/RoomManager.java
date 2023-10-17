@@ -3,16 +3,19 @@ package Managers;
 import Repository.RoomRepository;
 import Room.*;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Table;
+import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.List;
 
 public class RoomManager {
     private RoomRepository rooms;
-    private EntityManager em;
+    private EntityManager entityManager;
 
-    public void setEm(EntityManager em) {
-        this.em = em;
-        this.rooms.setEm(this.em);
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+        this.rooms = new RoomRepository();
+        this.rooms.setEm(this.entityManager);
     }
 
     public RoomManager(){
@@ -49,16 +52,33 @@ public class RoomManager {
     }
 
     public Room getRoomByID(Integer id) {
-        return rooms.getByKey(id);
+        Room room = rooms.getByKey(id);
+        entityManager.detach(room);
+        return room;
     }
 
-    public void deleteRoom(Room r){
+    public void deleteRoom(Integer id){
+        Room r = rooms.getByKey(id);
         rooms.delete(r);
     }
 
     public List<Room> getAllRooms(){
-        return rooms.getAllRecords();
+        List<Room> roomsList = rooms.getAllRecords();
+        for(Room r :roomsList){
+            entityManager.detach(r);
+        }
+        return roomsList;
     }
+
+    public void changeUsed(Integer id){
+        Room r = rooms.getByKey(id);
+        r.setUsed(!r.isUsed());
+    }
+
+    public Room getRoomInPersistenceContext(Integer id) {
+        return rooms.getByKey(id);
+    }
+
 
 
 }

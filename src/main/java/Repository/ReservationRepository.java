@@ -19,70 +19,73 @@ public class ReservationRepository implements Repository<Reservation, UUID> {
     @Override
     public Reservation getByKey(UUID id) {
         Reservation reservation = em.find(Reservation.class, id);
-        if(reservation != null) {
-            em.detach(reservation);
-        }
         return reservation;
     }
 
     @Override
     public void save(Reservation r) {
-        em.getTransaction().begin();
-        if(em.find(Reservation.class,r.getId()) == null){
-            em.persist(r);
-        } else {
-            em.merge(r);
-        }
-        em.getTransaction().commit();
-        em.detach(r);
+
+            if (r.getId() == null || em.find(Reservation.class, r.getId()) == null) {
+                em.persist(r);
+            } else {
+                em.merge(r);
+            }
     }
 
     @Override
     public void delete(Reservation r) {
-        em.getTransaction().begin();
-        Reservation reservation = em.find(Reservation.class, r.getId());
-        em.remove(reservation);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            Reservation reservation = em.find(Reservation.class, r.getId());
+            em.remove(reservation);
+            em.getTransaction().commit();
+        } catch (Exception e){
+            em.getTransaction().rollback();
+            throw e;
+        }
+
     }
 
     @Override
     public List<Reservation> getAllRecords() {
         TypedQuery<Reservation> query = em.createQuery("SELECT r from Reservation r",Reservation.class);
         List<Reservation> reservations = query.getResultList();
-        for(Reservation r :reservations){
-            em.detach(r);
-        }
+//        for(Reservation r :reservations){
+//            em.detach(r);
+//        }
         return reservations;
     }
 
-    public List<Reservation> getAllActive(){
-        TypedQuery<Reservation> query = em.createQuery("SELECT r from Reservation r WHERE isActive is TRUE",Reservation.class);
-        List<Reservation> reservations = query.getResultList();
-        for(Reservation r :reservations){
-            em.detach(r);
-        }
-        return reservations;
-    }
-
-    public List<Reservation> getAllActiveWithRoomID(int searchedRoomNumber) {
-        TypedQuery<Reservation> query = em.createQuery(
-                "SELECT r FROM Reservation r WHERE isActive is TRUE AND room.roomNumber = :roomNumber", Reservation.class);
-        query.setParameter("roomNumber", searchedRoomNumber);
-        List<Reservation> result = query.getResultList();
-        for (Reservation r : result) {
-            em.detach(r);
-        }
-        return result;
-    }
+//    public List<Reservation> getAllActive(){
+//        TypedQuery<Reservation> query = em.createQuery("SELECT r from Reservation r WHERE isActive is TRUE",Reservation.class);
+//        List<Reservation> reservations = query.getResultList();
+//        for(Reservation r :reservations){
+//            em.detach(r);
+//        }
+//        return reservations;
+//    }
+//
+//    public List<Reservation> getAllActiveWithRoomID(int searchedRoomNumber) {
+//        TypedQuery<Reservation> query = em.createQuery(
+//                "SELECT r FROM Reservation r WHERE isActive is TRUE AND room.roomNumber = :roomNumber", Reservation.class);
+//        query.setParameter("roomNumber", searchedRoomNumber);
+//        List<Reservation> result = query.getResultList();
+//        for (Reservation r : result) {
+//            em.detach(r);
+//        }
+//        return result;
+//    }
 
     public List<Reservation> getAllArchive(String ID){
         TypedQuery<Reservation> query = em.createQuery(
                 "SELECT r FROM Reservation r WHERE isActive is FALSE AND r.client.id = :personID", Reservation.class);
         query.setParameter("personID", ID);
         List<Reservation> result = query.getResultList();
-        for (Reservation r : result) {
-            em.detach(r);
-        }
+//        for (Reservation r : result) {
+//            em.detach(r);
+//        }
         return result;
     }
+
+
  }

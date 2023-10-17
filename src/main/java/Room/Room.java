@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 @Table(name = "Rooms")
 public class Room {
 
+    @Version
+    private long version;
     @Id
     @Column(name = "number")
     private Integer roomNumber;
@@ -14,11 +16,22 @@ public class Room {
     private double basePricePerNight;
     @Column(name = "bed_count")
     private int bedCount;
+
+    private boolean used;
     public Room() {}
     public Room(int roomNumber, double basePricePerNight, int bedCount) {
         this.roomNumber = roomNumber;
         this.basePricePerNight = basePricePerNight;
         this.bedCount = bedCount;
+        this.used = false;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 
     public Integer getRoomNumber() {

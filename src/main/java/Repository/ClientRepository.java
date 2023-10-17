@@ -16,30 +16,40 @@ public class ClientRepository implements Repository<Client,String> {
     @Override
     public Client getByKey(String id) {
         Client client = em.find(Client.class, id);
-        if(client != null) {
-            em.detach(client);
-        }
+//        if(client != null) {
+//            em.detach(client);
+//        }
         return client;
     }
 
     @Override
     public void save(Client c) {
-        em.getTransaction().begin();
-        if(em.find(Client.class,c.getPersonalID()) == null){
-            em.persist(c);
-        } else {
-            em.merge(c);
+        try {
+            em.getTransaction().begin();
+            if (em.find(Client.class, c.getPersonalID()) == null) {
+                em.persist(c);
+            } else {
+                em.merge(c);
+            }
+            em.getTransaction().commit();
+            em.detach(c);
+        } catch (Exception e){
+            em.getTransaction().rollback();
+            throw e;
         }
-        em.getTransaction().commit();
-        em.detach(c);
     }
 
     @Override
     public void delete(Client c) {
-        em.getTransaction().begin();
-        Client client = em.find(Client.class, c.getPersonalID());
-        em.remove(client);
-        em.getTransaction().commit();
+        try {
+            em.getTransaction().begin();
+            Client client = em.find(Client.class, c.getPersonalID());
+            em.remove(client);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw e;
+        }
 
     }
 
@@ -47,9 +57,9 @@ public class ClientRepository implements Repository<Client,String> {
     public List<Client> getAllRecords() {
         TypedQuery<Client> query = em.createQuery("SELECT c from Client c",Client.class);
         List<Client> clients = query.getResultList();
-        for(Client c :clients){
-            em.detach(c);
-        }
+//        for(Client c :clients){
+//            em.detach(c);
+//        }
         return clients;
     }
 }

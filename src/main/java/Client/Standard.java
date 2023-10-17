@@ -1,11 +1,16 @@
 package Client;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("2")
 public class Standard extends ClientType {
     private int maxDays = 14;
     private boolean discount = true;
+    public Standard() {
+        this.clientType = "Standard";
+    }
 
     public int getMaxDays() {
         return maxDays;

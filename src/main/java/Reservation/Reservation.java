@@ -25,11 +25,12 @@ public class Reservation {
 
     private int reservationDays;
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private double totalResrvationCost;
     private LocalDateTime beginTime;
     private boolean isActive;
-    @ManyToOne
+    @ManyToOne//(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "room_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Room room;
@@ -39,11 +40,11 @@ public class Reservation {
     private Client client;
     public Reservation() {}
 
-    public Reservation(ExtraBonus extraBonus, int guestCount, int reservationDays, UUID id, LocalDateTime beginTime, Room room, Client client) {
+    public Reservation(ExtraBonus extraBonus, int guestCount, int reservationDays,  LocalDateTime beginTime, Room room, Client client) {
         this.extraBonus = extraBonus;
         this.guestCount = guestCount;
         this.reservationDays = reservationDays;
-        this.id = id;
+        this.id = null;
         this.beginTime = beginTime;
         this.room = room;
         this.client = client;
@@ -110,9 +111,7 @@ public class Reservation {
         return client;
     }
 
-//    public void setClient(Client c){
-//        this.client = c;
-//    }
+
     public String getInfo(){
         return "\n--------------------------------------------------------------------------------------------------\n"
         + "Reservation id: " + id.toString() + ", number of guests: " + guestCount
@@ -124,7 +123,4 @@ public class Reservation {
 
     }
 
-    public void cancelReservation(Reservation reservation){
-        reservation.setActive(false);
-    }
 }

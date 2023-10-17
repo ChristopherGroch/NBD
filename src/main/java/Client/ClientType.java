@@ -8,8 +8,7 @@ import jakarta.persistence.*;
 @Table(name = "ClientType")
 public abstract class ClientType {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long clientTypeID;
+    protected String clientType;
 
     public abstract int getMaxDays();
 
@@ -17,7 +16,7 @@ public abstract class ClientType {
 
     public abstract String getClientInfo();
 
-    public long getClientTypeID() {
-        return clientTypeID;
+    public String getClientType() {
+        return clientType;
     }
 }
