@@ -15,11 +15,7 @@ public class RoomRepository implements Repository<Room,Integer> {
     }
     @Override
     public Room getByKey(Integer id) {
-        Room room = em.find(Room.class, id);
-//        if(room != null) {
-//            em.detach(room);
-//        }
-        return room;
+        return em.find(Room.class, id);
     }
 
     @Override
@@ -55,10 +51,6 @@ public class RoomRepository implements Repository<Room,Integer> {
     @Override
     public List<Room> getAllRecords() {
         TypedQuery<Room> query = em.createQuery("SELECT r from Room r",Room.class);
-        List<Room> rooms = query.getResultList();
-//        for(Room r :rooms){
-//            em.detach(r);
-//        }
-        return rooms;
+        return query.getResultList();
     }
 }

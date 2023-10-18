@@ -7,7 +7,6 @@ import Reservation.Reservation.ExtraBonus;
 import Room.Room;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
-import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,7 +37,7 @@ public class ReservationManager {
         reservations = new ReservationRepository();
     }
 
-    public void registerReservation(ExtraBonus extraBonus, int guestCount, int reservationDays, UUID id, Integer roomID, String clientID) throws Exception {
+    public void registerReservation(ExtraBonus extraBonus, int guestCount, int reservationDays, Integer roomID, String clientID) throws Exception {
         try {
             entityManager.getTransaction().begin();
             Room room = roomManager.getRoomInPersistenceContext(roomID);
@@ -64,7 +63,6 @@ public class ReservationManager {
                 price = Math.round(price * (1 - calculateDiscount(client)) * 100) / 100.0;
             }
             reservation.setTotalResrvationCost(price);
-            System.out.println(price);
             clientManager.chargeClientBill(clientID,price);
             reservations.save(reservation);
             entityManager.getTransaction().commit();

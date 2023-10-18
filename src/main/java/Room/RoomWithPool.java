@@ -1,11 +1,16 @@
 package Room;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 @Entity
 public class RoomWithPool extends Room{
+
+    @Column(name = "pool_width")
     private double poolWidth;
+    @Column(name = "pool_length")
     private double poolLength;
+    @Column(name = "pool_depth")
     private double poolDepth;
 
 

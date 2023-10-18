@@ -38,7 +38,11 @@ public class ClientManager {
         Client client = clients.getByKey(ID);
         if (client != null) {
             if (client.getClientType().getClientInfo().equals("ShortTerm")) {
-                client.setClientType(new Standard());
+                ClientType  type = entityManager.find(Standard.class, new Standard().getClientInfo());
+                if (type == null) {
+                    type = new Standard();
+                }
+                client.setClientType(type);
                 clients.save(client);
             } else {
                 throw new Exception("Downgrade is not permitted");
@@ -53,7 +57,11 @@ public class ClientManager {
         Client client = clients.getByKey(ID);
         if (client != null){
             if (!client.getClientType().getClientInfo().equals("LongTerm")) {
-                client.setClientType(new LongTerm());
+                ClientType  type = entityManager.find(LongTerm.class, new LongTerm().getClientInfo());
+                if (type == null) {
+                    type = new LongTerm();
+                }
+                client.setClientType(type);
                 clients.save(client);
             } else {
                 throw new Exception("Downgrade is not permitted");
@@ -67,6 +75,9 @@ public class ClientManager {
 
     public Client getClientByID(String pID) {
         Client client =  clients.getByKey(pID);
+        if(client == null){
+            return null;
+        }
         entityManager.detach(client);
         return client;
     }
@@ -86,8 +97,10 @@ public class ClientManager {
 
     public void unregisterClient(String pID) {
         Client client = clients.getByKey(pID);
-        client.setArchive(true);
-        clients.save(client);
+        if(client != null) {
+            client.setArchive(true);
+            clients.save(client);
+        }
     }
 
     public void clientPaysForBill(String pID,double x) {
@@ -98,7 +111,6 @@ public class ClientManager {
     public void chargeClientBill(String pID,double x) {
         Client client = clients.getByKey(pID);
         client.setBill(Math.round((client.getBill() - x)*100)/100.0);
-        System.out.println(client.getBill());
     }
 
     public Client getClientInPersistenceContext(String pID){

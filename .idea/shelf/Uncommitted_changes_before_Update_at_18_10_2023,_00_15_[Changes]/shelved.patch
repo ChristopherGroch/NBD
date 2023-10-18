@@ -1,0 +1,548 @@
+Index: src/main/java/Client/Client.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Client;\n\nimport jakarta.persistence.*;\n\n@Entity\npublic class Client {\n\n    @Version\n    private long version;\n    private String firstName;\n    private String lastName;\n    @Id\n    private String personalID;\n    private boolean archive;\n    private double bill;\n    //    @Convert(converter = ClientTypeConverter.class)\n    @ManyToOne(cascade = CascadeType.PERSIST)\n    @JoinColumn(name = \"type\")\n    private ClientType clientType;\n\n    public Client() {\n\n    }\n\n    public Client(String firstName, String lastName, String personalID, ClientType clientType) {\n        this.firstName = firstName;\n        this.lastName = lastName;\n        this.personalID = personalID;\n        this.clientType = clientType;\n        this.bill = 0;\n        this.archive = false;\n    }\n\n\n    public String getFirstName() {\n        return firstName;\n    }\n\n    public void setFirstName(String firstName) {\n        this.firstName = firstName;\n    }\n\n    public String getLastName() {\n        return lastName;\n    }\n\n    public void setLastName(String lastName) {\n        this.lastName = lastName;\n    }\n\n    public String getPersonalID() {\n        return personalID;\n    }\n\n    public void setPersonalID(String personalID) {\n        this.personalID = personalID;\n    }\n\n    public boolean isArchive() {\n        return archive;\n    }\n\n    public void setArchive(boolean archive) {\n        this.archive = archive;\n    }\n\n    public double getBill() {\n        return bill;\n    }\n\n    public void setBill(double bill) {\n        this.bill = bill;\n    }\n\n    public ClientType getClientType() {\n        return clientType;\n    }\n\n    public void setClientType(ClientType clientType) {\n        this.clientType = clientType;\n    }\n\n    public int getMaxDays() {\n        return getClientType().getMaxDays();\n    }\n\n    public boolean acceptDiscount() {\n        return getClientType().applyDiscount();\n    }\n\n    public String getInfo() {\n        return \"firstName='\" + firstName + '\\'' +\n                \", lastName='\" + lastName + '\\'' +\n                \", personalID='\" + personalID + '\\'' +\n                \", archive=\" + archive +\n                \", bill=\" + bill +\n                \", clientType=\" + clientType;\n\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Client/Client.java b/src/main/java/Client/Client.java
+--- a/src/main/java/Client/Client.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/Client/Client.java	(date 1697576555719)
+@@ -3,15 +3,21 @@
+ import jakarta.persistence.*;
+ 
+ @Entity
++@Table(name = "clients")
+ public class Client {
+ 
+     @Version
+     private long version;
++    @Column(name = "first_name")
+     private String firstName;
++    @Column(name = "last_name")
+     private String lastName;
+     @Id
++    @Column(name = "personal_id")
+     private String personalID;
++    @Column(name = "is_archive")
+     private boolean archive;
++    @Column(name = "bill")
+     private double bill;
+     //    @Convert(converter = ClientTypeConverter.class)
+     @ManyToOne(cascade = CascadeType.PERSIST)
+Index: src/main/java/Client/Standard.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Client;\n\nimport jakarta.persistence.DiscriminatorValue;\nimport jakarta.persistence.Entity;\n\n@Entity\n@DiscriminatorValue(\"2\")\npublic class Standard extends ClientType {\n    private int maxDays = 14;\n    private boolean discount = true;\n    public Standard() {\n        this.clientType = \"Standard\";\n    }\n\n    public int getMaxDays() {\n        return maxDays;\n    }\n\n    public boolean applyDiscount() {\n        return discount;\n    }\n\n    public String getClientInfo() {\n        return \"Standard\";\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Client/Standard.java b/src/main/java/Client/Standard.java
+--- a/src/main/java/Client/Standard.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/Client/Standard.java	(date 1697576555714)
+@@ -1,12 +1,15 @@
+ package Client;
+ 
++import jakarta.persistence.Column;
+ import jakarta.persistence.DiscriminatorValue;
+ import jakarta.persistence.Entity;
+ 
+ @Entity
+ @DiscriminatorValue("2")
+ public class Standard extends ClientType {
++    @Column(name = "max_days")
+     private int maxDays = 14;
++    @Column(name = "accepts_discount")
+     private boolean discount = true;
+     public Standard() {
+         this.clientType = "Standard";
+Index: src/main/java/Client/LongTerm.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Client;\n\nimport jakarta.persistence.DiscriminatorValue;\nimport jakarta.persistence.Entity;\nimport jakarta.persistence.MappedSuperclass;\n\n@Entity\n@DiscriminatorValue(\"3\")\npublic class LongTerm extends ClientType {\n\n    private int maxDays = 30;\n    private boolean discount = true;\n    public LongTerm() {\n        this.clientType = \"LongTerm\";\n    }\n\n    public int getMaxDays() {\n        return maxDays;\n    }\n\n    public boolean applyDiscount() {\n        return discount;\n    }\n\n    public String getClientInfo() {\n        return \"LongTerm\";\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Client/LongTerm.java b/src/main/java/Client/LongTerm.java
+--- a/src/main/java/Client/LongTerm.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/Client/LongTerm.java	(date 1697576555712)
+@@ -1,5 +1,6 @@
+ package Client;
+ 
++import jakarta.persistence.Column;
+ import jakarta.persistence.DiscriminatorValue;
+ import jakarta.persistence.Entity;
+ import jakarta.persistence.MappedSuperclass;
+@@ -7,8 +8,9 @@
+ @Entity
+ @DiscriminatorValue("3")
+ public class LongTerm extends ClientType {
+-
++    @Column(name = "max_days")
+     private int maxDays = 30;
++    @Column(name = "accepts_discount")
+     private boolean discount = true;
+     public LongTerm() {
+         this.clientType = "LongTerm";
+Index: src/main/java/Client/ShortTerm.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Client;\n\nimport jakarta.persistence.*;\n\n//@DiscriminatorValue(\"ShortTerm\")\n@Entity\n@DiscriminatorValue(\"1\")\npublic class ShortTerm extends ClientType {\n\n    private int maxDays = 2;\n    private boolean discount = false;\n\n    public ShortTerm() {\n        this.clientType = \"ShortTerm\";\n    }\n\n    public int getMaxDays() {\n        return maxDays;\n    }\n\n    public boolean applyDiscount() {\n        return discount;\n    }\n\n    public String getClientInfo() {\n        return \"ShortTerm\";\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Client/ShortTerm.java b/src/main/java/Client/ShortTerm.java
+--- a/src/main/java/Client/ShortTerm.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/Client/ShortTerm.java	(date 1697576555721)
+@@ -6,8 +6,9 @@
+ @Entity
+ @DiscriminatorValue("1")
+ public class ShortTerm extends ClientType {
+-
++    @Column(name = "max_days")
+     private int maxDays = 2;
++    @Column(name = "accepts_discount")
+     private boolean discount = false;
+ 
+     public ShortTerm() {
+Index: src/main/java/Client/ClientType.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Client;\n\nimport jakarta.persistence.*;\n\n@Entity\n@DiscriminatorColumn(name = \"type\")\n@Inheritance(strategy = InheritanceType.SINGLE_TABLE)\n@Table(name = \"ClientType\")\npublic abstract class ClientType {\n    @Id\n    protected String clientType;\n\n    public abstract int getMaxDays();\n\n    public abstract boolean applyDiscount();\n\n    public abstract String getClientInfo();\n\n    public String getClientType() {\n        return clientType;\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Client/ClientType.java b/src/main/java/Client/ClientType.java
+--- a/src/main/java/Client/ClientType.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/Client/ClientType.java	(date 1697576555710)
+@@ -3,11 +3,12 @@
+ import jakarta.persistence.*;
+ 
+ @Entity
+-@DiscriminatorColumn(name = "type")
++@DiscriminatorColumn(name = "type_id")
+ @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+-@Table(name = "ClientType")
++@Table(name = "client_types")
+ public abstract class ClientType {
+     @Id
++    @Column(name = "type")
+     protected String clientType;
+ 
+     public abstract int getMaxDays();
+Index: src/main/java/Managers/ClientManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Managers;\n\nimport Client.*;\nimport Repository.ClientRepository;\nimport jakarta.persistence.EntityManager;\n\nimport java.util.List;\n\npublic class ClientManager {\n    private ClientRepository clients;\n    private EntityManager entityManager;\n\n    public void setEntityManager(EntityManager entityManager) {\n        this.entityManager = entityManager;\n        this.clients = new ClientRepository();\n        this.clients.setEm(this.entityManager);\n    }\n\n    public ClientManager() {\n        clients = new ClientRepository();\n    }\n\n    public void registerClient(String fName, String lName, String pID, ClientType clientType) throws Exception {\n        if (clients.getByKey(pID) == null) {\n            ClientType  type = entityManager.find(clientType.getClass(), clientType.getClientInfo());\n            if (type == null) {\n                type = clientType;\n            }\n\n            Client client = new Client(fName, lName, pID, type);\n            clients.save(client);\n        } else {\n            throw new Exception(\"Client with this ID already exists\");\n        }\n    }\n\n    public void changeClientTypeToStandard(String ID) throws Exception {\n        Client client = clients.getByKey(ID);\n        if (client != null) {\n            if (client.getClientType().getClientInfo().equals(\"ShortTerm\")) {\n                client.setClientType(new Standard());\n                clients.save(client);\n            } else {\n                throw new Exception(\"Downgrade is not permitted\");\n            }\n        } else {\n            throw new Exception(\"No client with this ID\");\n        }\n\n    }\n\n    public void changeClientTypeToLongTerm(String ID) throws Exception {\n        Client client = clients.getByKey(ID);\n        if (client != null){\n            if (!client.getClientType().getClientInfo().equals(\"LongTerm\")) {\n                client.setClientType(new LongTerm());\n                clients.save(client);\n            } else {\n                throw new Exception(\"Downgrade is not permitted\");\n            }\n        } else {\n            throw new Exception(\"No client with this ID\");\n        }\n\n\n    }\n\n    public Client getClientByID(String pID) {\n        Client client =  clients.getByKey(pID);\n        entityManager.detach(client);\n        return client;\n    }\n\n    public List<Client> getAllClients() {\n        List<Client> clientsList = clients.getAllRecords();\n        for(Client c :clientsList){\n            entityManager.detach(c);\n        }\n        return clients.getAllRecords();\n    }\n\n    public void deleteClient(String pID) {\n        Client client = clients.getByKey(pID);\n        clients.delete(client);\n    }\n\n    public void unregisterClient(String pID) {\n        Client client = clients.getByKey(pID);\n        client.setArchive(true);\n        clients.save(client);\n    }\n\n    public void clientPaysForBill(String pID,double x) {\n        Client client = clients.getByKey(pID);\n        client.setBill(Math.round((client.getBill() + x)*100)/100.0);\n        clients.save(client);\n    }\n    public void chargeClientBill(String pID,double x) {\n        Client client = clients.getByKey(pID);\n        client.setBill(Math.round((client.getBill() - x)*100)/100.0);\n        System.out.println(client.getBill());\n    }\n\n    public Client getClientInPersistenceContext(String pID){\n        return clients.getByKey(pID);\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Managers/ClientManager.java b/src/main/java/Managers/ClientManager.java
+--- a/src/main/java/Managers/ClientManager.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/Managers/ClientManager.java	(date 1697574109859)
+@@ -38,7 +38,11 @@
+         Client client = clients.getByKey(ID);
+         if (client != null) {
+             if (client.getClientType().getClientInfo().equals("ShortTerm")) {
+-                client.setClientType(new Standard());
++                ClientType  type = entityManager.find(Standard.class, new Standard().getClientInfo());
++                if (type == null) {
++                    type = new Standard();
++                }
++                client.setClientType(type);
+                 clients.save(client);
+             } else {
+                 throw new Exception("Downgrade is not permitted");
+@@ -53,7 +57,11 @@
+         Client client = clients.getByKey(ID);
+         if (client != null){
+             if (!client.getClientType().getClientInfo().equals("LongTerm")) {
+-                client.setClientType(new LongTerm());
++                ClientType  type = entityManager.find(LongTerm.class, new LongTerm().getClientInfo());
++                if (type == null) {
++                    type = new LongTerm();
++                }
++                client.setClientType(type);
+                 clients.save(client);
+             } else {
+                 throw new Exception("Downgrade is not permitted");
+Index: src/main/resources/META-INF/persistence.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<persistence xmlns=\"https://jakarta.ee/xml/ns/persistence\"\n             xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n             xsi:schemaLocation=\"https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd\"\n             version=\"3.0\">\n    <persistence-unit name=\"TEST_MWJS_NBD\" transaction-type=\"RESOURCE_LOCAL\">\n        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>\n        <properties>\n            <property name=\"jakarta.persistence.jdbc.driver\" value=\"org.postgresql.Driver\"/>\n            <property name=\"jakarta.persistence.jdbc.url\" value=\"jdbc:postgresql://localhost:5432/NBD\"/>\n            <property name=\"jakarta.persistence.jdbc.user\" value=\"MWJS\"/>\n            <property name=\"jakarta.persistence.jdbc.password\" value=\"MWJSpassword\"/>\n            <property name=\"jakarta.persistence.schema-generation.database.action\" value=\"drop-and-create\"/>\n        </properties>\n    </persistence-unit>\n</persistence>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/META-INF/persistence.xml b/src/main/resources/META-INF/persistence.xml
+--- a/src/main/resources/META-INF/persistence.xml	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/resources/META-INF/persistence.xml	(date 1697577269566)
+@@ -5,6 +5,16 @@
+              version="3.0">
+     <persistence-unit name="TEST_MWJS_NBD" transaction-type="RESOURCE_LOCAL">
+         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
++        <class>Client.Client</class>
++        <class>Client.ClientType</class>
++        <class>Client.LongTerm</class>
++        <class>Client.Standard</class>
++        <class>Client.ShortTerm</class>
++        <class>Reservation.Reservation</class>
++        <class>Room.Room</class>
++        <class>Room.RoomWithPool</class>
++        <class>Room.RoomWithTerrace</class>
++        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+         <properties>
+             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/NBD"/>
+Index: src/main/java/Repository/ClientRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Repository;\n\nimport Client.Client;\nimport jakarta.persistence.EntityManager;\nimport jakarta.persistence.TypedQuery;\n\nimport java.util.List;\n\npublic class ClientRepository implements Repository<Client,String> {\n    private EntityManager em;\n\n    public void setEm(EntityManager em) {\n        this.em = em;\n    }\n\n    @Override\n    public Client getByKey(String id) {\n        Client client = em.find(Client.class, id);\n//        if(client != null) {\n//            em.detach(client);\n//        }\n        return client;\n    }\n\n    @Override\n    public void save(Client c) {\n        try {\n            em.getTransaction().begin();\n            if (em.find(Client.class, c.getPersonalID()) == null) {\n                em.persist(c);\n            } else {\n                em.merge(c);\n            }\n            em.getTransaction().commit();\n            em.detach(c);\n        } catch (Exception e){\n            em.getTransaction().rollback();\n            throw e;\n        }\n    }\n\n    @Override\n    public void delete(Client c) {\n        try {\n            em.getTransaction().begin();\n            Client client = em.find(Client.class, c.getPersonalID());\n            em.remove(client);\n            em.getTransaction().commit();\n        } catch (Exception e) {\n            em.getTransaction().rollback();\n            throw e;\n        }\n\n    }\n\n    @Override\n    public List<Client> getAllRecords() {\n        TypedQuery<Client> query = em.createQuery(\"SELECT c from Client c\",Client.class);\n        List<Client> clients = query.getResultList();\n//        for(Client c :clients){\n//            em.detach(c);\n//        }\n        return clients;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Repository/ClientRepository.java b/src/main/java/Repository/ClientRepository.java
+--- a/src/main/java/Repository/ClientRepository.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/Repository/ClientRepository.java	(date 1697577458878)
+@@ -16,9 +16,6 @@
+     @Override
+     public Client getByKey(String id) {
+         Client client = em.find(Client.class, id);
+-//        if(client != null) {
+-//            em.detach(client);
+-//        }
+         return client;
+     }
+ 
+@@ -57,9 +54,6 @@
+     public List<Client> getAllRecords() {
+         TypedQuery<Client> query = em.createQuery("SELECT c from Client c",Client.class);
+         List<Client> clients = query.getResultList();
+-//        for(Client c :clients){
+-//            em.detach(c);
+-//        }
+         return clients;
+     }
+ }
+Index: src/main/java/Repository/ReservationRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Repository;\n\nimport Reservation.Reservation;\nimport Room.Room;\nimport jakarta.persistence.EntityManager;\nimport jakarta.persistence.TypedQuery;\n\nimport java.sql.SQLOutput;\nimport java.util.List;\nimport java.util.UUID;\n\npublic class ReservationRepository implements Repository<Reservation, UUID> {\n\n    private EntityManager em;\n\n    public void setEm(EntityManager em) {\n        this.em = em;\n    }\n    @Override\n    public Reservation getByKey(UUID id) {\n        Reservation reservation = em.find(Reservation.class, id);\n        return reservation;\n    }\n\n    @Override\n    public void save(Reservation r) {\n\n            if (r.getId() == null || em.find(Reservation.class, r.getId()) == null) {\n                em.persist(r);\n            } else {\n                em.merge(r);\n            }\n    }\n\n    @Override\n    public void delete(Reservation r) {\n        try {\n            em.getTransaction().begin();\n            Reservation reservation = em.find(Reservation.class, r.getId());\n            em.remove(reservation);\n            em.getTransaction().commit();\n        } catch (Exception e){\n            em.getTransaction().rollback();\n            throw e;\n        }\n\n    }\n\n    @Override\n    public List<Reservation> getAllRecords() {\n        TypedQuery<Reservation> query = em.createQuery(\"SELECT r from Reservation r\",Reservation.class);\n        List<Reservation> reservations = query.getResultList();\n//        for(Reservation r :reservations){\n//            em.detach(r);\n//        }\n        return reservations;\n    }\n\n//    public List<Reservation> getAllActive(){\n//        TypedQuery<Reservation> query = em.createQuery(\"SELECT r from Reservation r WHERE isActive is TRUE\",Reservation.class);\n//        List<Reservation> reservations = query.getResultList();\n//        for(Reservation r :reservations){\n//            em.detach(r);\n//        }\n//        return reservations;\n//    }\n//\n//    public List<Reservation> getAllActiveWithRoomID(int searchedRoomNumber) {\n//        TypedQuery<Reservation> query = em.createQuery(\n//                \"SELECT r FROM Reservation r WHERE isActive is TRUE AND room.roomNumber = :roomNumber\", Reservation.class);\n//        query.setParameter(\"roomNumber\", searchedRoomNumber);\n//        List<Reservation> result = query.getResultList();\n//        for (Reservation r : result) {\n//            em.detach(r);\n//        }\n//        return result;\n//    }\n\n    public List<Reservation> getAllArchive(String ID){\n        TypedQuery<Reservation> query = em.createQuery(\n                \"SELECT r FROM Reservation r WHERE isActive is FALSE AND r.client.id = :personID\", Reservation.class);\n        query.setParameter(\"personID\", ID);\n        List<Reservation> result = query.getResultList();\n//        for (Reservation r : result) {\n//            em.detach(r);\n//        }\n        return result;\n    }\n\n\n }\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Repository/ReservationRepository.java b/src/main/java/Repository/ReservationRepository.java
+--- a/src/main/java/Repository/ReservationRepository.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/Repository/ReservationRepository.java	(date 1697577028542)
+@@ -1,11 +1,9 @@
+ package Repository;
+ 
+ import Reservation.Reservation;
+-import Room.Room;
+ import jakarta.persistence.EntityManager;
+ import jakarta.persistence.TypedQuery;
+ 
+-import java.sql.SQLOutput;
+ import java.util.List;
+ import java.util.UUID;
+ 
+@@ -50,40 +48,15 @@
+     public List<Reservation> getAllRecords() {
+         TypedQuery<Reservation> query = em.createQuery("SELECT r from Reservation r",Reservation.class);
+         List<Reservation> reservations = query.getResultList();
+-//        for(Reservation r :reservations){
+-//            em.detach(r);
+-//        }
+         return reservations;
+     }
+ 
+-//    public List<Reservation> getAllActive(){
+-//        TypedQuery<Reservation> query = em.createQuery("SELECT r from Reservation r WHERE isActive is TRUE",Reservation.class);
+-//        List<Reservation> reservations = query.getResultList();
+-//        for(Reservation r :reservations){
+-//            em.detach(r);
+-//        }
+-//        return reservations;
+-//    }
+-//
+-//    public List<Reservation> getAllActiveWithRoomID(int searchedRoomNumber) {
+-//        TypedQuery<Reservation> query = em.createQuery(
+-//                "SELECT r FROM Reservation r WHERE isActive is TRUE AND room.roomNumber = :roomNumber", Reservation.class);
+-//        query.setParameter("roomNumber", searchedRoomNumber);
+-//        List<Reservation> result = query.getResultList();
+-//        for (Reservation r : result) {
+-//            em.detach(r);
+-//        }
+-//        return result;
+-//    }
+ 
+     public List<Reservation> getAllArchive(String ID){
+         TypedQuery<Reservation> query = em.createQuery(
+                 "SELECT r FROM Reservation r WHERE isActive is FALSE AND r.client.id = :personID", Reservation.class);
+         query.setParameter("personID", ID);
+         List<Reservation> result = query.getResultList();
+-//        for (Reservation r : result) {
+-//            em.detach(r);
+-//        }
+         return result;
+     }
+ 
+Index: src/main/java/Repository/RoomRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Repository;\n\nimport Room.*;\nimport jakarta.persistence.EntityManager;\nimport jakarta.persistence.TypedQuery;\n\nimport java.util.List;\n\npublic class RoomRepository implements Repository<Room,Integer> {\n\n    private EntityManager em;\n\n    public void setEm(EntityManager em) {\n        this.em = em;\n    }\n    @Override\n    public Room getByKey(Integer id) {\n        Room room = em.find(Room.class, id);\n//        if(room != null) {\n//            em.detach(room);\n//        }\n        return room;\n    }\n\n    @Override\n    public void save(Room r) {\n        try {\n            em.getTransaction().begin();\n            if (em.find(Room.class, r.getRoomNumber()) == null) {\n                em.persist(r);\n            } else {\n                em.merge(r);\n            }\n            em.getTransaction().commit();\n            em.detach(r);\n        } catch (Exception e){\n            em.getTransaction().rollback();\n            throw e;\n        }\n    }\n\n    @Override\n    public void delete(Room r) {\n        try {\n            em.getTransaction().begin();\n            Room room = em.find(Room.class, r.getRoomNumber());\n            em.remove(room);\n            em.getTransaction().commit();\n        } catch (Exception e){\n            em.getTransaction().rollback();\n            throw e;\n        }\n    }\n\n    @Override\n    public List<Room> getAllRecords() {\n        TypedQuery<Room> query = em.createQuery(\"SELECT r from Room r\",Room.class);\n        List<Room> rooms = query.getResultList();\n//        for(Room r :rooms){\n//            em.detach(r);\n//        }\n        return rooms;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Repository/RoomRepository.java b/src/main/java/Repository/RoomRepository.java
+--- a/src/main/java/Repository/RoomRepository.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/Repository/RoomRepository.java	(date 1697577458883)
+@@ -16,9 +16,6 @@
+     @Override
+     public Room getByKey(Integer id) {
+         Room room = em.find(Room.class, id);
+-//        if(room != null) {
+-//            em.detach(room);
+-//        }
+         return room;
+     }
+ 
+@@ -56,9 +53,6 @@
+     public List<Room> getAllRecords() {
+         TypedQuery<Room> query = em.createQuery("SELECT r from Room r",Room.class);
+         List<Room> rooms = query.getResultList();
+-//        for(Room r :rooms){
+-//            em.detach(r);
+-//        }
+         return rooms;
+     }
+ }
+Index: src/main/java/Reservation/Reservation.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Reservation;\n\nimport Room.Room;\nimport Client.*;\nimport jakarta.persistence.*;\nimport org.hibernate.annotations.OnDelete;\nimport org.hibernate.annotations.OnDeleteAction;\n\nimport java.time.temporal.ChronoUnit;\nimport java.util.UUID;\nimport java.time.LocalDateTime;\n\n@Entity\npublic class Reservation {\n    public enum ExtraBonus {\n        A(0), B(5), C(10);\n        public final int value;\n        ExtraBonus(int value) {\n            this.value = value;\n        }\n    }\n    @Enumerated(EnumType.STRING)\n    private ExtraBonus extraBonus;\n    private int guestCount;\n\n    private int reservationDays;\n    @Id\n    @GeneratedValue(strategy = GenerationType.UUID)\n    private UUID id;\n    private double totalResrvationCost;\n    private LocalDateTime beginTime;\n    private boolean isActive;\n    @ManyToOne//(cascade = CascadeType.PERSIST)\n    @JoinColumn(name = \"room_id\")\n    @OnDelete(action = OnDeleteAction.CASCADE)\n    private Room room;\n    @ManyToOne//(cascade = CascadeType.PERSIST)\n    @JoinColumn(name = \"cleint_id\")\n    @OnDelete(action = OnDeleteAction.CASCADE)\n    private Client client;\n    public Reservation() {}\n\n    public Reservation(ExtraBonus extraBonus, int guestCount, int reservationDays,  LocalDateTime beginTime, Room room, Client client) {\n        this.extraBonus = extraBonus;\n        this.guestCount = guestCount;\n        this.reservationDays = reservationDays;\n        this.id = null;\n        this.beginTime = beginTime;\n        this.room = room;\n        this.client = client;\n        this.totalResrvationCost = 0;\n        this.isActive = true;\n    }\n\n    public ExtraBonus getExtraBonus() {\n        return extraBonus;\n    }\n\n    public int getGuestCount() {\n        return guestCount;\n    }\n\n    public int getReservationDays() {\n        return reservationDays;\n    }\n\n    public UUID getId() {\n        return id;\n    }\n\n    public double getTotalResrvationCost() {\n        return totalResrvationCost;\n    }\n\n    public LocalDateTime getBeginTime() {\n        return beginTime;\n    }\n    public LocalDateTime getEndTime() {\n        LocalDateTime ideal = getBeginTime().withHour(12).withMinute(0).withSecond(0);\n        long hoursBetween = ChronoUnit.SECONDS.between(ideal, getBeginTime());\n        if (hoursBetween < 0) {\n            return ideal.plusHours((getReservationDays() - 1) * 24);\n        } else {\n            return ideal.plusHours(getReservationDays() * 24);\n        }\n    }\n\n    public void setTotalResrvationCost(double totalResrvationCost) {\n        this.totalResrvationCost = totalResrvationCost;\n    }\n\n    public double calculateBaseReservationCost() {\n        return getPricePerNight()*getReservationDays();\n    }\n    public double getPricePerNight() {\n        return room.getFinalPricePerNight() + getExtraBonus().value;\n    }\n    public Room getRoom() {\n        return room;\n    }\n\n    public boolean isActive() {\n        return isActive;\n    }\n\n    public void setActive(boolean active) {\n        isActive = active;\n    }\n\n    public Client getClient() {\n        return client;\n    }\n\n\n    public String getInfo(){\n        return \"\\n--------------------------------------------------------------------------------------------------\\n\"\n        + \"Reservation id: \" + id.toString() + \", number of guests: \" + guestCount\n        + \"\\nFrom: \" + beginTime + \"  To: \" + getEndTime()\n        + \"\\nClient info: \" + client.getInfo()\n        + \"\\nRoom info: \" + room.getInfo()\n        + \"\\nExtra bonuses: \" + getExtraBonus() + \" Final price per night: \" + getPricePerNight()\n        + \"\\n--------------------------------------------------------------------------------------------------\\n\";\n\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Reservation/Reservation.java b/src/main/java/Reservation/Reservation.java
+--- a/src/main/java/Reservation/Reservation.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/Reservation/Reservation.java	(date 1697576952166)
+@@ -11,6 +11,7 @@
+ import java.time.LocalDateTime;
+ 
+ @Entity
++@Table(name = "reservations")
+ public class Reservation {
+     public enum ExtraBonus {
+         A(0), B(5), C(10);
+@@ -20,15 +21,20 @@
+         }
+     }
+     @Enumerated(EnumType.STRING)
++    @Column(name = "extra_bonus")
+     private ExtraBonus extraBonus;
++    @Column(name = "guest_count")
+     private int guestCount;
+-
++    @Column(name = "reservation_days")
+     private int reservationDays;
+     @Id
+     @GeneratedValue(strategy = GenerationType.UUID)
+     private UUID id;
++    @Column(name = "total_resrvation_cost")
+     private double totalResrvationCost;
++    @Column(name = "begin_time")
+     private LocalDateTime beginTime;
++    @Column(name = "is_active")
+     private boolean isActive;
+     @ManyToOne//(cascade = CascadeType.PERSIST)
+     @JoinColumn(name = "room_id")
+Index: src/main/java/Room/RoomWithPool.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Room;\n\nimport jakarta.persistence.Entity;\n\n@Entity\npublic class RoomWithPool extends Room{\n    private double poolWidth;\n    private double poolLength;\n    private double poolDepth;\n\n\n    public RoomWithPool(int roomNumber, double basePricePerNight, int bedCount, double poolWidth, double poolLength, double poolDepth) {\n        super(roomNumber, basePricePerNight, bedCount);\n        this.poolWidth = poolWidth;\n        this.poolLength = poolLength;\n        this.poolDepth = poolDepth;\n    }\n\n    public RoomWithPool() {}\n\n    public double getPoolWidth() {\n        return poolWidth;\n    }\n\n    public double getPoolLength() {\n        return poolLength;\n    }\n\n    public double getPoolDepth() {\n        return poolDepth;\n    }\n\n    public double getPoolSize(){\n        return poolDepth * poolWidth * poolLength;\n    }\n    @Override\n    public String getInfo() {\n        return super.getInfo() + \", pool size: \" + (poolDepth * poolLength * poolWidth) + \" cubic meters\";\n    }\n\n    @Override\n    public double getFinalPricePerNight() {\n        if(getPoolSize()<5)\n            return getBasePricePerNight();\n        else if(getPoolSize()<10)\n            return getBasePricePerNight()*2;\n        else\n            return getBasePricePerNight()*4;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Room/RoomWithPool.java b/src/main/java/Room/RoomWithPool.java
+--- a/src/main/java/Room/RoomWithPool.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/Room/RoomWithPool.java	(date 1697576555716)
+@@ -1,11 +1,16 @@
+ package Room;
+ 
++import jakarta.persistence.Column;
+ import jakarta.persistence.Entity;
+ 
+ @Entity
+ public class RoomWithPool extends Room{
++
++    @Column(name = "pool_width")
+     private double poolWidth;
++    @Column(name = "pool_length")
+     private double poolLength;
++    @Column(name = "pool_depth")
+     private double poolDepth;
+ 
+ 
+Index: src/main/java/Room/Room.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Room;\n\nimport jakarta.persistence.*;\n\n@Entity\n@Inheritance(strategy = InheritanceType.SINGLE_TABLE)\n@Table(name = \"Rooms\")\npublic class Room {\n\n    @Version\n    private long version;\n    @Id\n    @Column(name = \"number\")\n    private Integer roomNumber;\n    @Column(name = \"base_price_per_night\")\n    private double basePricePerNight;\n    @Column(name = \"bed_count\")\n    private int bedCount;\n\n    private boolean used;\n    public Room() {}\n    public Room(int roomNumber, double basePricePerNight, int bedCount) {\n        this.roomNumber = roomNumber;\n        this.basePricePerNight = basePricePerNight;\n        this.bedCount = bedCount;\n        this.used = false;\n    }\n\n    public boolean isUsed() {\n        return used;\n    }\n\n    public void setUsed(boolean used) {\n        this.used = used;\n    }\n\n    public Integer getRoomNumber() {\n        return roomNumber;\n    }\n\n    public double getBasePricePerNight() {\n        return basePricePerNight;\n    }\n\n    public int getBedCount() {\n        return bedCount;\n    }\n\n    public void setBedCount(int bedCount) {\n        this.bedCount = bedCount;\n    }\n\n    public String getInfo(){\n        return \"Room number: \" + roomNumber + \", bed count: \" + bedCount + \", base price per night: \" + basePricePerNight;\n    }\n    public double getFinalPricePerNight(){\n        return getBasePricePerNight();\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Room/Room.java b/src/main/java/Room/Room.java
+--- a/src/main/java/Room/Room.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/Room/Room.java	(date 1697576555706)
+@@ -16,7 +16,7 @@
+     private double basePricePerNight;
+     @Column(name = "bed_count")
+     private int bedCount;
+-
++    @Column(name = "in_use")
+     private boolean used;
+     public Room() {}
+     public Room(int roomNumber, double basePricePerNight, int bedCount) {
+Index: src/main/java/Room/RoomWithTerrace.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Room;\n\nimport jakarta.persistence.Entity;\n\n@Entity\npublic class RoomWithTerrace extends Room{\n    private double terraceSurface;\n\n    public RoomWithTerrace() {}\n    public RoomWithTerrace(int roomNumber, double basePricePerNight, int bedCount, double terraceSurface) {\n        super(roomNumber, basePricePerNight, bedCount);\n        this.terraceSurface = terraceSurface;\n    }\n\n    public double getTerraceSurface() {\n        return terraceSurface;\n    }\n\n    @Override\n    public String getInfo() {\n        return super.getInfo() + \", terrace surface: \" + terraceSurface;\n    }\n\n    @Override\n    public double getFinalPricePerNight() {\n        if(terraceSurface<5)\n            return getBasePricePerNight();\n        else if(terraceSurface<10)\n            return getBasePricePerNight()*1.2;\n        else\n            return getBasePricePerNight()*1.5;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Room/RoomWithTerrace.java b/src/main/java/Room/RoomWithTerrace.java
+--- a/src/main/java/Room/RoomWithTerrace.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/Room/RoomWithTerrace.java	(date 1697576555723)
+@@ -1,9 +1,11 @@
+ package Room;
+ 
++import jakarta.persistence.Column;
+ import jakarta.persistence.Entity;
+ 
+ @Entity
+ public class RoomWithTerrace extends Room{
++    @Column(name = "terrace_surface")
+     private double terraceSurface;
+ 
+     public RoomWithTerrace() {}
+Index: src/main/java/org/example/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example;\n\nimport Client.*;\nimport Repository.RoomRepository;\nimport Room.*;\nimport Reservation.*;\nimport jakarta.persistence.EntityManager;\nimport jakarta.persistence.EntityManagerFactory;\nimport jakarta.persistence.Persistence;\nimport Managers.*;\n\nimport java.time.LocalDateTime;\nimport java.time.temporal.ChronoUnit;\nimport java.util.List;\nimport java.util.UUID;\n\npublic class Main {\n    public static void main(String[] args) throws Exception {\n        EntityManagerFactory emf = Persistence.createEntityManagerFactory(\"TEST_MWJS_NBD\");\n        EntityManager em = emf.createEntityManager();\n//        Room room = new Room(3,4,2);\n//        RoomWithPool roomWithPool = new RoomWithPool(4,1,2,1,1,1);\n//        RoomWithTerrace roomWithTerrace = new RoomWithTerrace(5,4,6,10);\n//        System.out.println(room.getFinalPricePerNight());\n//        System.out.println(roomWithTerrace.getFinalPricePerNight());\n//        em.getTransaction().begin();\n//        em.persist(room);\n//        em.persist(roomWithPool);\n//        em.persist(roomWithTerrace);\n//        em.getTransaction().commit();\n//\n//        em.detach(room);\n//        em.detach(roomWithPool);\n//        em.detach(roomWithTerrace);\n//\n//        Room room1 = em.find(Room.class,5);\n//        System.out.println(room1.getClass().getCanonicalName());\n\n\n\n        RoomManager RM = new RoomManager();\n        ClientManager CM = new ClientManager();\n        ReservationManager ReM = new ReservationManager();\n        RM.setEntityManager(em);\n        ReM.setEntityManager(em);\n        CM.setEntityManager(em);\n        ReM.setClientManager(CM);\n        ReM.setRoomManager(RM);\n\n        CM.registerClient(\"Miłosz\",\"Wojtasczyk\",\"42069\",new ShortTerm());\n        CM.registerClient(\"Jakub\",\"Świerk\",\"1111\",new LongTerm());\n        CM.changeClientTypeToStandard(\"42069\");\n        RM.registerRoom(1,2,3);\n        RM.registerRoomWithTerrace(2,3,4,5);\n        RM.registerRoomWithPool(3,4,5,6,7,8);\n        UUID id1 = UUID.randomUUID();\n        ReM.registerReservation(Reservation.ExtraBonus.A,3,4,UUID.randomUUID(),1,\"42069\");\n        ReM.registerReservation(Reservation.ExtraBonus.B,2,29,id1,2,\"1111\");\n        List<Reservation> relist = ReM.getAllReservations();\n        for(Reservation r : relist){\n            if(r.getRoom().getRoomNumber() == 2){\n                id1 = r.getId();\n            }\n        }\n        ReM.endReservation(id1);\n        ReM.registerReservation(Reservation.ExtraBonus.B,2,29,UUID.randomUUID(),2,\"1111\");\n\n//        CM.changeClientTypeToStandard(\"1111\");\n//        CM.changeClientTypeToLongTerm(\"1111\");\n//        CM.deleteClient(\"1111\");\n//        em.getTransaction().begin();\n//        em.getTransaction().commit();\n\n\n//        RR.save(room);\n//        RR.save(room2);\n//        RR.save(room3);\n//\n//        List<Room> rooms = RR.getAllRecords();\n//        rooms.get(1).setBedCount(100);\n//        System.out.println(em.find(Room.class,2).getInfo());\n//        em.merge(room);\n//\n//        Client client = new Client(\"Miłosz\",\"Wojtaszczyk\",\"42069\",new Standard());\n//        Reservation reservation = new Reservation(Reservation.ExtraBonus.B,2,65,UUID.randomUUID(), LocalDateTime.of(2023, 10, 13, 11, 30),room,client);\n//        reservation.setActive(false);\n//        System.out.println(reservation.getInfo());\n//        em.getTransaction().begin();\n//        em.persist(client);\n//        em.persist(reservation);\n//        em.getTransaction().commit();\n//        //System.out.println(reservation.getExtraBonus());\n//        client.setClientType(new LongTerm());\n//\n////        em.getTransaction().begin();\n////        em.remove(client);\n////        em.getTransaction().commit();\n//\n//        RoomManager RM = new RoomManager();\n//        RM.setEm(em);\n//        em.detach(reservation);\n//        Room room76 = new Room(8,9,10);\n//        //RM.deleteRoom(room76);\n////        try{\n//        RM.registerRoomWithPool(5,6,7,8,9,10);\n//        RM.registerRoomWithTerrace(6,7,8,9);\n//        for(Room r:RM.getAllRooms())\n//        {\n//            System.out.println(r.getInfo());//        } catch (Exception e) {\n//        }\n////        RM.deleteRoom(room);\n//        //RM.registerRoom(5,2,3);\n////            System.out.println(e.getMessage());\n////        }\n//        ReservationManager reservationManager = new ReservationManager();\n//        reservationManager.setEntityManager(em);\n//        reservationManager.registerReservation(Reservation.ExtraBonus.A, 3, 30, UUID.randomUUID(), LocalDateTime.of(2023, 10, 9, 11, 30), room2, client);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/Main.java b/src/main/java/org/example/Main.java
+--- a/src/main/java/org/example/Main.java	(revision c63b37fbb5b50a27a25d07417801d8cde10e72a3)
++++ b/src/main/java/org/example/Main.java	(date 1697577294934)
+@@ -9,8 +9,6 @@
+ import jakarta.persistence.Persistence;
+ import Managers.*;
+ 
+-import java.time.LocalDateTime;
+-import java.time.temporal.ChronoUnit;
+ import java.util.List;
+ import java.util.UUID;
+ 
+@@ -18,25 +16,6 @@
+     public static void main(String[] args) throws Exception {
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TEST_MWJS_NBD");
+         EntityManager em = emf.createEntityManager();
+-//        Room room = new Room(3,4,2);
+-//        RoomWithPool roomWithPool = new RoomWithPool(4,1,2,1,1,1);
+-//        RoomWithTerrace roomWithTerrace = new RoomWithTerrace(5,4,6,10);
+-//        System.out.println(room.getFinalPricePerNight());
+-//        System.out.println(roomWithTerrace.getFinalPricePerNight());
+-//        em.getTransaction().begin();
+-//        em.persist(room);
+-//        em.persist(roomWithPool);
+-//        em.persist(roomWithTerrace);
+-//        em.getTransaction().commit();
+-//
+-//        em.detach(room);
+-//        em.detach(roomWithPool);
+-//        em.detach(roomWithTerrace);
+-//
+-//        Room room1 = em.find(Room.class,5);
+-//        System.out.println(room1.getClass().getCanonicalName());
+-
+-
+ 
+         RoomManager RM = new RoomManager();
+         ClientManager CM = new ClientManager();
+@@ -48,14 +27,14 @@
+         ReM.setRoomManager(RM);
+ 
+         CM.registerClient("Miłosz","Wojtasczyk","42069",new ShortTerm());
+-        CM.registerClient("Jakub","Świerk","1111",new LongTerm());
++        CM.registerClient("Jakub","Świerk","1111",new Standard());
+         CM.changeClientTypeToStandard("42069");
+         RM.registerRoom(1,2,3);
+         RM.registerRoomWithTerrace(2,3,4,5);
+         RM.registerRoomWithPool(3,4,5,6,7,8);
+         UUID id1 = UUID.randomUUID();
+         ReM.registerReservation(Reservation.ExtraBonus.A,3,4,UUID.randomUUID(),1,"42069");
+-        ReM.registerReservation(Reservation.ExtraBonus.B,2,29,id1,2,"1111");
++        ReM.registerReservation(Reservation.ExtraBonus.B,2,2,id1,2,"1111");
+         List<Reservation> relist = ReM.getAllReservations();
+         for(Reservation r : relist){
+             if(r.getRoom().getRoomNumber() == 2){
+@@ -63,57 +42,7 @@
+             }
+         }
+         ReM.endReservation(id1);
+-        ReM.registerReservation(Reservation.ExtraBonus.B,2,29,UUID.randomUUID(),2,"1111");
+-
+-//        CM.changeClientTypeToStandard("1111");
+-//        CM.changeClientTypeToLongTerm("1111");
+-//        CM.deleteClient("1111");
+-//        em.getTransaction().begin();
+-//        em.getTransaction().commit();
++        ReM.registerReservation(Reservation.ExtraBonus.B,2,2,UUID.randomUUID(),2,"1111");
+ 
+-
+-//        RR.save(room);
+-//        RR.save(room2);
+-//        RR.save(room3);
+-//
+-//        List<Room> rooms = RR.getAllRecords();
+-//        rooms.get(1).setBedCount(100);
+-//        System.out.println(em.find(Room.class,2).getInfo());
+-//        em.merge(room);
+-//
+-//        Client client = new Client("Miłosz","Wojtaszczyk","42069",new Standard());
+-//        Reservation reservation = new Reservation(Reservation.ExtraBonus.B,2,65,UUID.randomUUID(), LocalDateTime.of(2023, 10, 13, 11, 30),room,client);
+-//        reservation.setActive(false);
+-//        System.out.println(reservation.getInfo());
+-//        em.getTransaction().begin();
+-//        em.persist(client);
+-//        em.persist(reservation);
+-//        em.getTransaction().commit();
+-//        //System.out.println(reservation.getExtraBonus());
+-//        client.setClientType(new LongTerm());
+-//
+-////        em.getTransaction().begin();
+-////        em.remove(client);
+-////        em.getTransaction().commit();
+-//
+-//        RoomManager RM = new RoomManager();
+-//        RM.setEm(em);
+-//        em.detach(reservation);
+-//        Room room76 = new Room(8,9,10);
+-//        //RM.deleteRoom(room76);
+-////        try{
+-//        RM.registerRoomWithPool(5,6,7,8,9,10);
+-//        RM.registerRoomWithTerrace(6,7,8,9);
+-//        for(Room r:RM.getAllRooms())
+-//        {
+-//            System.out.println(r.getInfo());//        } catch (Exception e) {
+-//        }
+-////        RM.deleteRoom(room);
+-//        //RM.registerRoom(5,2,3);
+-////            System.out.println(e.getMessage());
+-////        }
+-//        ReservationManager reservationManager = new ReservationManager();
+-//        reservationManager.setEntityManager(em);
+-//        reservationManager.registerReservation(Reservation.ExtraBonus.A, 3, 30, UUID.randomUUID(), LocalDateTime.of(2023, 10, 9, 11, 30), room2, client);
+     }
+ }
+\ No newline at end of file

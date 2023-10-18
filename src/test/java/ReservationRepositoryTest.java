@@ -5,6 +5,7 @@ import Room.Room;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -26,27 +27,34 @@ public class ReservationRepositoryTest {
         reservationRepository = new ReservationRepository();
         reservationRepository.setEm(em);
     }
-
+    @AfterAll
+    public static void afetrAll(){
+        if(em != null){
+            em.close();
+        }
+        if(emf != null){
+            emf.close();
+        }
+    }
     @Test
     public void testGetByKey(){
-        assertEquals(reservationRepository.getByKey(UUID.randomUUID()), null);
+        assertNull(reservationRepository.getByKey(UUID.randomUUID()));
         Room room = new Room(144,1,1);
         Client client = new Client("Jan", "Nowak", "44", new Standard());
         Reservation reservation = new Reservation(Reservation.ExtraBonus.A, 5, 5, LocalDateTime.of(2023,10,17,22,36), room, client);
-        reservationRepository.save(reservation);
         em.getTransaction().begin();
         em.persist(client);
         em.persist(room);
+        em.persist(reservation);
         em.getTransaction().commit();
-        System.out.println(reservationRepository.getAllRecords());
         UUID uuid = reservationRepository.getAllRecords().get(0).getId();
         Reservation reservation1 = reservationRepository.getByKey(uuid);
-        assertTrue(reservation1.getExtraBonus() == reservation.getExtraBonus());
-        assertTrue(reservation1.getGuestCount() == reservation.getGuestCount());
-        assertTrue(reservation1.getReservationDays() == reservation.getReservationDays());
-        assertTrue(reservation1.getBeginTime() == reservation.getBeginTime());
-        assertTrue(reservation1.getRoom().getRoomNumber() == reservation.getRoom().getRoomNumber());
-        assertTrue(reservation1.getClient().getPersonalID() == reservation.getClient().getPersonalID());
+        assertSame(reservation1.getExtraBonus(), reservation.getExtraBonus());
+        assertEquals(reservation1.getGuestCount(), reservation.getGuestCount());
+        assertEquals(reservation1.getReservationDays(), reservation.getReservationDays());
+        assertSame(reservation1.getBeginTime(), reservation.getBeginTime());
+        assertSame(reservation1.getRoom().getRoomNumber(), reservation.getRoom().getRoomNumber());
+        assertSame(reservation1.getClient().getPersonalID(), reservation.getClient().getPersonalID());
         reservationRepository.delete(reservation);
     }
 

@@ -15,11 +15,7 @@ public class ClientRepository implements Repository<Client,String> {
 
     @Override
     public Client getByKey(String id) {
-        Client client = em.find(Client.class, id);
-//        if(client != null) {
-//            em.detach(client);
-//        }
-        return client;
+        return em.find(Client.class, id);
     }
 
     @Override
@@ -56,10 +52,6 @@ public class ClientRepository implements Repository<Client,String> {
     @Override
     public List<Client> getAllRecords() {
         TypedQuery<Client> query = em.createQuery("SELECT c from Client c",Client.class);
-        List<Client> clients = query.getResultList();
-//        for(Client c :clients){
-//            em.detach(c);
-//        }
-        return clients;
+        return query.getResultList();
     }
 }

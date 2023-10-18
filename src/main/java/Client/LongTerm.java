@@ -1,14 +1,15 @@
 package Client;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.MappedSuperclass;
 
 @Entity
 @DiscriminatorValue("3")
 public class LongTerm extends ClientType {
-
+    @Column(name = "max_days")
     private int maxDays = 30;
+    @Column(name = "accepts_discount")
     private boolean discount = true;
     public LongTerm() {
         this.clientType = "LongTerm";

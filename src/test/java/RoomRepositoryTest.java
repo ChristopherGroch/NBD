@@ -3,6 +3,7 @@ import Room.Room;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -21,12 +22,24 @@ public class RoomRepositoryTest {
         roomRepository = new RoomRepository();
         roomRepository.setEm(em);
     }
+    @AfterAll
+    public static void afetrAll(){
+        if(em != null){
+            em.close();
+        }
+        if(emf != null){
+            emf.close();
+        }
+    }
     @Test
     public void testGetByKey(){
         Room room = new Room(31,500,3);
-        roomRepository.save(room);
-        assertTrue(roomRepository.getByKey(31).getRoomNumber().equals(31));
-        assertEquals(roomRepository.getByKey(0), null);
+        em.getTransaction().begin();
+        em.persist(room);
+        em.getTransaction().commit();
+        assertEquals(31, (int) roomRepository.getByKey(31).getRoomNumber());
+        assertEquals(roomRepository.getByKey(31).getBasePricePerNight(),500);
+        assertNull(roomRepository.getByKey(0));
         roomRepository.delete(room);
     }
 
@@ -34,8 +47,10 @@ public class RoomRepositoryTest {
     public void testGetAllRecords() {
         Room room = new Room(31,500,3);
         Room room1 = new Room(311,500,3);
-        roomRepository.save(room);
-        roomRepository.save(room1);
+        em.getTransaction().begin();
+        em.persist(room);
+        em.persist(room1);
+        em.getTransaction().commit();
         assertEquals(2, roomRepository.getAllRecords().size());
         roomRepository.delete(room);
         roomRepository.delete(room1);

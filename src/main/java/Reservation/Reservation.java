@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "reservations")
 public class Reservation {
     public enum ExtraBonus {
         A(0), B(5), C(10);
@@ -20,15 +21,20 @@ public class Reservation {
         }
     }
     @Enumerated(EnumType.STRING)
+    @Column(name = "extra_bonus")
     private ExtraBonus extraBonus;
+    @Column(name = "guest_count")
     private int guestCount;
-
+    @Column(name = "reservation_days")
     private int reservationDays;
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @Column(name = "total_resrvation_cost")
     private double totalResrvationCost;
+    @Column(name = "begin_time")
     private LocalDateTime beginTime;
+    @Column(name = "is_active")
     private boolean isActive;
     @ManyToOne//(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "room_id")

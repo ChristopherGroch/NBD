@@ -1,11 +1,9 @@
 package Repository;
 
 import Reservation.Reservation;
-import Room.Room;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,8 +16,7 @@ public class ReservationRepository implements Repository<Reservation, UUID> {
     }
     @Override
     public Reservation getByKey(UUID id) {
-        Reservation reservation = em.find(Reservation.class, id);
-        return reservation;
+        return em.find(Reservation.class, id);
     }
 
     @Override
@@ -49,22 +46,16 @@ public class ReservationRepository implements Repository<Reservation, UUID> {
     @Override
     public List<Reservation> getAllRecords() {
         TypedQuery<Reservation> query = em.createQuery("SELECT r from Reservation r",Reservation.class);
-        List<Reservation> reservations = query.getResultList();
-//        for(Reservation r :reservations){
-//            em.detach(r);
-//        }
-        return reservations;
+
+        return query.getResultList();
     }
+
 
     public List<Reservation> getAllArchive(String ID){
         TypedQuery<Reservation> query = em.createQuery(
                 "SELECT r FROM Reservation r WHERE isActive is FALSE AND r.client.id = :personID", Reservation.class);
         query.setParameter("personID", ID);
-        List<Reservation> result = query.getResultList();
-//        for (Reservation r : result) {
-//            em.detach(r);
-//        }
-        return result;
+        return query.getResultList();
     }
 
 

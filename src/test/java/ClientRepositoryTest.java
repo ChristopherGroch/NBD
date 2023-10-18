@@ -4,6 +4,7 @@ import Repository.ClientRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -29,14 +30,26 @@ public class ClientRepositoryTest {
         em.getTransaction().commit();
         clientType = em.find(LongTerm.class, new LongTerm().getClientInfo());
     }
+    @AfterAll
+    public static void afetrAll(){
+        if(em != null){
+            em.close();
+        }
+        if(emf != null){
+            emf.close();
+        }
+    }
 
     @Test
     public void testGetByKey() {
 
         Client client = new Client("Jan", "Kowalski", "73", clientType);
-        clientRepository.save(client);
-        assertTrue(clientRepository.getByKey("73").getPersonalID().equals("73"));
-        assertEquals(clientRepository.getByKey("0"), null);
+        em.getTransaction().begin();
+        em.persist(client);
+        em.getTransaction().commit();
+        assertEquals("73", clientRepository.getByKey("73").getPersonalID());
+        assertEquals(clientRepository.getByKey("73").getLastName(),"Kowalski");
+        assertNull(clientRepository.getByKey("0"));
         clientRepository.delete(client);
     }
 
@@ -44,9 +57,13 @@ public class ClientRepositoryTest {
     public void testGetAllRecords() {
         Client client = new Client("Jan", "Kowalski", "73", clientType);
         Client client1 = new Client("Jan", "Kowalski", "733", new ShortTerm());
-        clientRepository.save(client);
-        clientRepository.save(client1);
+        em.getTransaction().begin();
+        em.persist(client);
+        em.persist(client1);
+        em.getTransaction().commit();
         assertEquals(2, clientRepository.getAllRecords().size());
+        assertEquals(clientRepository.getAllRecords().getFirst().getPersonalID(),"73");
+        assertEquals(clientRepository.getAllRecords().getLast().getPersonalID(),"733");
         clientRepository.delete(client);
         clientRepository.delete(client1);
     }

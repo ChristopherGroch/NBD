@@ -3,15 +3,21 @@ package Client;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "clients")
 public class Client {
 
     @Version
     private long version;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
     @Id
+    @Column(name = "personal_id")
     private String personalID;
+    @Column(name = "is_archive")
     private boolean archive;
+    @Column(name = "bill")
     private double bill;
     //    @Convert(converter = ClientTypeConverter.class)
     @ManyToOne(cascade = CascadeType.PERSIST)

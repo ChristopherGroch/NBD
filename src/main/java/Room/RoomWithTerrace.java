@@ -1,9 +1,11 @@
 package Room;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
 @Entity
 public class RoomWithTerrace extends Room{
+    @Column(name = "terrace_surface")
     private double terraceSurface;
 
     public RoomWithTerrace() {}

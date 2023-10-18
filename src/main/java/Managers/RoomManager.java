@@ -3,8 +3,6 @@ package Managers;
 import Repository.RoomRepository;
 import Room.*;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Table;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.List;
 
@@ -53,6 +51,9 @@ public class RoomManager {
 
     public Room getRoomByID(Integer id) {
         Room room = rooms.getByKey(id);
+        if(room == null){
+            return null;
+        }
         entityManager.detach(room);
         return room;
     }
@@ -72,7 +73,9 @@ public class RoomManager {
 
     public void changeUsed(Integer id){
         Room r = rooms.getByKey(id);
-        r.setUsed(!r.isUsed());
+        if(r != null){
+            r.setUsed(!r.isUsed());
+        }
     }
 
     public Room getRoomInPersistenceContext(Integer id) {
