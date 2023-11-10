@@ -10,8 +10,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "reservations")
 public class Reservation {
     public enum ExtraBonus {
         A(0), B(5), C(10);
@@ -20,29 +18,14 @@ public class Reservation {
             this.value = value;
         }
     }
-    @Enumerated(EnumType.STRING)
-    @Column(name = "extra_bonus")
     private ExtraBonus extraBonus;
-    @Column(name = "guest_count")
     private int guestCount;
-    @Column(name = "reservation_days")
     private int reservationDays;
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-    @Column(name = "total_resrvation_cost")
+    private Integer id;
     private double totalResrvationCost;
-    @Column(name = "begin_time")
     private LocalDateTime beginTime;
-    @Column(name = "is_active")
     private boolean isActive;
-    @ManyToOne//(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "room_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Room room;
-    @ManyToOne//(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "cleint_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Client client;
     public Reservation() {}
 
@@ -70,7 +53,7 @@ public class Reservation {
         return reservationDays;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -89,6 +72,10 @@ public class Reservation {
         } else {
             return ideal.plusHours(getReservationDays() * 24);
         }
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setTotalResrvationCost(double totalResrvationCost) {
@@ -129,4 +116,18 @@ public class Reservation {
 
     }
 
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "extraBonus=" + extraBonus +
+                ", guestCount=" + guestCount +
+                ", reservationDays=" + reservationDays +
+                ", id=" + id +
+                ", totalResrvationCost=" + totalResrvationCost +
+                ", beginTime=" + beginTime +
+                ", isActive=" + isActive +
+                ", room=" + room +
+                ", client=" + client +
+                '}';
+    }
 }

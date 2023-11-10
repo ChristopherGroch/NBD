@@ -1,22 +1,11 @@
 package Room;
 
-import jakarta.persistence.*;
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Table(name = "Rooms")
 public class Room {
 
-    @Version
-    private long version;
-    @Id
-    @Column(name = "number")
     private Integer roomNumber;
-    @Column(name = "base_price_per_night")
     private double basePricePerNight;
-    @Column(name = "bed_count")
     private int bedCount;
-    @Column(name = "in_use")
     private boolean used;
     public Room() {}
     public Room(int roomNumber, double basePricePerNight, int bedCount) {

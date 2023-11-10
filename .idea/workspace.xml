@@ -69,7 +69,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="JUnit.All in NBD">
+  <component name="RunManager">
     <configuration name="All in NBD" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="NBD" />
       <option name="PACKAGE_NAME" value="" />

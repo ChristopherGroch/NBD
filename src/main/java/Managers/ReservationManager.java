@@ -59,8 +59,10 @@ public class ReservationManager {
             roomManager.changeUsed(room.getRoomNumber());
             Reservation reservation = new Reservation(extraBonus,guestCount,reservationDays,LocalDateTime.now(),room,client);
             double price = reservation.calculateBaseReservationCost();
+            System.out.println(price);
             if (client.acceptDiscount()) {
                 price = Math.round(price * (1 - calculateDiscount(client)) * 100) / 100.0;
+                System.out.println(calculateDiscount(client));
             }
             reservation.setTotalResrvationCost(price);
             clientManager.chargeClientBill(clientID,price);

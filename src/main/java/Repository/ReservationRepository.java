@@ -49,8 +49,6 @@ public class ReservationRepository implements Repository<Reservation, UUID> {
 
         return query.getResultList();
     }
-
-
     public List<Reservation> getAllArchive(String ID){
         TypedQuery<Reservation> query = em.createQuery(
                 "SELECT r FROM Reservation r WHERE isActive is FALSE AND r.client.id = :personID", Reservation.class);

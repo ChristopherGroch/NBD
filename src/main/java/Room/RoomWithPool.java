@@ -2,15 +2,13 @@ package Room;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 
-@Entity
+
 public class RoomWithPool extends Room{
 
-    @Column(name = "pool_width")
     private double poolWidth;
-    @Column(name = "pool_length")
     private double poolLength;
-    @Column(name = "pool_depth")
     private double poolDepth;
 
 
@@ -38,9 +36,14 @@ public class RoomWithPool extends Room{
     public double getPoolSize(){
         return poolDepth * poolWidth * poolLength;
     }
+
     @Override
-    public String getInfo() {
-        return super.getInfo() + ", pool size: " + (poolDepth * poolLength * poolWidth) + " cubic meters";
+    public String toString() {
+        return super.toString() +
+                "poolWidth=" + poolWidth +
+                ", poolLength=" + poolLength +
+                ", poolDepth=" + poolDepth +
+                '}';
     }
 
     @Override
