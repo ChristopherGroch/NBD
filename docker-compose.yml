@@ -75,7 +75,7 @@ services:
       mongosh --host mongo_1:27017 --username admin --password password --authenticationDatabase admin --eval
       '
       rs.initiate({
-      _id: "mongo_repl",
+      _id: "replica_set",
       version: 1,
       members: [
         {_id: 0, host: "mongo_1:27017", priority: 3},

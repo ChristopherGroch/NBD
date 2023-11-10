@@ -24,7 +24,8 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws Exception {
 //        try (RoomMgdRepository mongoRepository = new RoomMgdRepository()) {
-//
+////            mongoRepository.deleteCollection();
+////            mongoRepository.createCollection();
 //
 //            RoomMgd room = new RoomMgd(1,2,3);
 //            RoomMgd room2 = new RoomWithPoolMgd(5,3,4,5,6,7);

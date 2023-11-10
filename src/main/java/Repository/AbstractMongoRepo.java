@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class AbstractMongoRepo implements AutoCloseable {
     private final ConnectionString connectionString = new ConnectionString(
-            "mongodb://localhost:27017,localhost:27018,localhost:27019/?replicaSet=mongo_repl");
+            "mongodb://localhost:27017,localhost:27018,localhost:27019/?replicaSet=replica_set");
     private final MongoCredential credential = MongoCredential.createCredential(
             "admin", "admin", "password".toCharArray());
 

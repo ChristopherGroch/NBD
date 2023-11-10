@@ -4,28 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a91b196b-b874-409a-a6d2-2595ec38ad30" name="Changes" comment="Zaraz koniec">
-      <change beforePath="$PROJECT_DIR$/NBD.iml" beforeDir="false" afterPath="$PROJECT_DIR$/NBD.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Client/ClientType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/ClientType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Client/LongTerm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/LongTerm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Client/ShortTerm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/ShortTerm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Client/Standard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Standard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Managers/ClientManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Managers/ClientManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Managers/ReservationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Managers/ReservationManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Managers/RoomManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Managers/RoomManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/ClientRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Repository/ClientRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/ReservationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Repository/ReservationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/RoomRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Repository/RoomRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Reservation/Reservation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Reservation/Reservation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Room/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Room/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Room/RoomWithPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Room/RoomWithPool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Room/RoomWithTerrace.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Room/RoomWithTerrace.java" afterDir="false" />
+    <list default="true" id="a91b196b-b874-409a-a6d2-2595ec38ad30" name="Changes" comment="zapomniałem jednego pliku">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mongod.conf" beforeDir="false" afterPath="$PROJECT_DIR$/mongod.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/AbstractMongoRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Repository/AbstractMongoRepo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ClientRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ClientRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ReservationRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ReservationRepositoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/RoomRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/RoomRepositoryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +26,17 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--follow-tags" />
+        <option name="title" value="Current Branch" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
@@ -47,28 +44,31 @@
   &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="2WrLLM70HxNyX00SNgboecfrcg4" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "mongoDB",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql",
+      "mongo"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="All in NBD" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="NBD" />
@@ -140,6 +140,7 @@
       <workItem from="1697537270184" duration="6370000" />
       <workItem from="1697555446729" duration="392000" />
       <workItem from="1697565546190" duration="20507000" />
+      <workItem from="1699638071644" duration="1287000" />
     </task>
     <task id="LOCAL-00001" summary="Zaraz koniec">
       <option name="closed" value="true" />
@@ -149,7 +150,31 @@
       <option name="project" value="LOCAL" />
       <updated>1697571516712</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Test czy działa">
+      <option name="closed" value="true" />
+      <created>1699638253558</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1699638253558</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Test czy działa">
+      <option name="closed" value="true" />
+      <created>1699638366223</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1699638366223</updated>
+    </task>
+    <task id="LOCAL-00004" summary="zapomniałem jednego pliku">
+      <option name="closed" value="true" />
+      <created>1699638733680</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1699638733680</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -157,6 +182,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Zaraz koniec" />
-    <option name="LAST_COMMIT_MESSAGE" value="Zaraz koniec" />
+    <MESSAGE value="Test czy działa" />
+    <MESSAGE value="zapomniałem jednego pliku" />
+    <option name="LAST_COMMIT_MESSAGE" value="zapomniałem jednego pliku" />
   </component>
 </project>
