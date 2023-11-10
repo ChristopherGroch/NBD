@@ -1,0 +1,90 @@
+version: '3.8'
+services:
+  mongo_1:
+    build: .
+    image: mongocustom:6.0.2
+    container_name: mongo_1
+    hostname: mongo_1
+    networks:
+      - mongonet
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    command: "--config /etc/mongod.conf --port 27017"
+    healthcheck:
+      test: [ "CMD", "mongosh", "--port", "27017", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+
+  mongo_2:
+    build: .
+    image: mongocustom:6.0.2
+    container_name: mongo_2
+    hostname: mongo_2
+    networks:
+      - mongonet
+    ports:
+      - "27018:27018"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    command: "--config /etc/mongod.conf --port 27018"
+    healthcheck:
+      test: [ "CMD", "mongosh", "--port", "27018", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+
+  mongo_3:
+    build: .
+    image: mongocustom:6.0.2
+    container_name: mongo_3
+    hostname: mongo_3
+    networks:
+      - mongonet
+    ports:
+      - "27019:27019"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    command: "--config /etc/mongod.conf --port 27019"
+    healthcheck:
+      test: [ "CMD", "mongosh", "--port", "27019","--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+
+  mongoInit:
+    build: .
+    image: mongocustom:6.0.2
+    hostname: mongoinit
+    networks:
+      - mongonet
+    container_name: mongoinit
+    depends_on:
+      mongo_1:
+        condition: service_healthy
+      mongo_2:
+        condition: service_healthy
+      mongo_3:
+        condition: service_healthy
+    command: >
+      mongosh --host mongo_1:27017 --username admin --password password --authenticationDatabase admin --eval
+      '
+      rs.initiate({
+      _id: "mongo_repl",
+      version: 1,
+      members: [
+        {_id: 0, host: "mongo_1:27017", priority: 3},
+        {_id: 1, host: "mongo_2:27018", priority: 2},
+        {_id: 2, host: "mongo_3:27019", priority: 1}
+      ]
+      });'
+
+networks:
+  mongonet: { }
+
+
