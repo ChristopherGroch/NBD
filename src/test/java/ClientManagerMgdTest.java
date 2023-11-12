@@ -62,7 +62,6 @@ public class ClientManagerMgdTest {
 
     @Test
     public void registerClientTest() throws Exception {
-        CM.deleteClient("01");
         CM.registerClient("Jan","Kowalski","01",new ShortTermMgd());
 
         MongoCollection<Document> collection = database.getCollection("clients");

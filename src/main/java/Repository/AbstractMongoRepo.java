@@ -1,5 +1,6 @@
 package Repository;
 
+import Client.*;
 import Mappers.ClientTypeMgdCodec;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -10,7 +11,6 @@ import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.Conventions;
 import org.bson.codecs.pojo.PojoCodecProvider;
-import Client.test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,7 @@ public class AbstractMongoRepo implements AutoCloseable {
     protected String collectionName;
 
     private final CodecRegistry pojoCodecRegistry = CodecRegistries.fromProviders(PojoCodecProvider.builder()
+            .register(ClientTypeMgd.class, ShortTermMgd.class, StandardMgd.class, LongTermMgd.class)
             .automatic(true)
             .conventions(List.of(Conventions.ANNOTATION_CONVENTION))
             .build());
@@ -86,8 +87,8 @@ public class AbstractMongoRepo implements AutoCloseable {
                 .uuidRepresentation(UuidRepresentation.STANDARD)
                 .codecRegistry(CodecRegistries.fromRegistries(
                         MongoClientSettings.getDefaultCodecRegistry(),
-                        pojoCodecRegistry,
-                        CodecRegistries.fromCodecs(new ClientTypeMgdCodec())
+                        pojoCodecRegistry
+//                        CodecRegistries.fromCodecs(new ClientTypeMgdCodec())
                 ))
                 .build();
 
