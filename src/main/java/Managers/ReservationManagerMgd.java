@@ -69,8 +69,10 @@ public class ReservationManagerMgd {
     public double calculateDiscount(Client client) {
         double discount = 0;
         int days = 0;
-        for (ReservationMgd r : reservations.getAllArchive(client.getPersonalID())) {
-            days += r.getReservationDays();
+        if(reservations.getAllArchive(client.getPersonalID()) != null) {
+            for (ReservationMgd r : reservations.getAllArchive(client.getPersonalID())) {
+                days += r.getReservationDays();
+            }
         }
         if (days >= 60)
             discount = 0.07;

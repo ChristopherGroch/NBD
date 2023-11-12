@@ -1,18 +1,15 @@
 package Repository;
 
 import Client.ClientMgd;
-import Managers.ReservationManager;
 import Mappers.ReservationMapper;
 import Reservation.Reservation;
 import Reservation.ReservationMgd;
 import Room.RoomMgd;
 import com.mongodb.client.ClientSession;
-import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
-import jakarta.persistence.TypedQuery;
 import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
@@ -67,7 +64,7 @@ public class ReservationMgdRepository extends AbstractMongoRepo implements Repos
             MongoCollection<ReservationMgd> collection =
                     this.database.getCollection(collectionName, ReservationMgd.class);
             collection.insertOne(clientSession,result);
-            changeVehicleState(clientSession,result.getRoomNumber());
+            changeRoomState(clientSession,result.getRoomNumber());
             changeBill(reservation.getClient().getPersonalID(),reservation.getTotalResrvationCost());
             clientSession.commitTransaction();
         }catch (Exception e){
@@ -78,16 +75,16 @@ public class ReservationMgdRepository extends AbstractMongoRepo implements Repos
         }
 
     }
-    private void changeVehicleState(ClientSession clientSession,Integer number){
+    private void changeRoomState(ClientSession clientSession, Integer number){
         MongoCollection<RoomMgd> collection =
-                this.database.getCollection(collectionName, RoomMgd.class);
+                this.database.getCollection("rooms", RoomMgd.class);
         Bson filter = Filters.eq("_id",number);
         Bson update = Updates.inc("used",1);
         collection.updateOne(clientSession,filter,update);
     }
     private void changeBill(String id,double x){
         MongoCollection<ClientMgd> collection =
-                this.database.getCollection(collectionName, ClientMgd.class);
+                this.database.getCollection("clients", ClientMgd.class);
         Bson filter = Filters.eq("_id",id);
         Bson update = Updates.inc("bill",x);
         collection.updateOne(filter,update);

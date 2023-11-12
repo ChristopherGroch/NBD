@@ -1,5 +1,6 @@
 package Repository;
 
+import Mappers.ClientTypeMgdCodec;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
@@ -84,9 +85,9 @@ public class AbstractMongoRepo implements AutoCloseable {
                 .applyConnectionString(connectionString)
                 .uuidRepresentation(UuidRepresentation.STANDARD)
                 .codecRegistry(CodecRegistries.fromRegistries(
-                        //CodecRegistries.fromProviders(new UniqueIdCodecProvider()),
                         MongoClientSettings.getDefaultCodecRegistry(),
-                        pojoCodecRegistry
+                        pojoCodecRegistry,
+                        CodecRegistries.fromCodecs(new ClientTypeMgdCodec())
                 ))
                 .build();
 

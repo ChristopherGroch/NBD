@@ -3,7 +3,7 @@ package Client;
 import org.bson.codecs.pojo.annotations.BsonDiscriminator;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
-@BsonDiscriminator(key = "clientType", value = "nic")
+@BsonDiscriminator(key = "clientType", value = "")
 public abstract class ClientTypeMgd {
     @BsonProperty("clientType")
     protected String clientType;
@@ -12,7 +12,7 @@ public abstract class ClientTypeMgd {
 
     public abstract boolean applyDiscount();
 
-    public abstract String getClientInfo();
+//    public abstract String getClientInfo();
 
     public String getClientType() {
         return clientType;

@@ -2,7 +2,7 @@ package Mappers;
 
 import Client.Client;
 import Client.ClientMgd;
-
+import org.bson.Document;
 
 
 public class ClientMapper {
@@ -15,7 +15,10 @@ public class ClientMapper {
 
     public ClientMgd ModelToMongo(Client client) {
         if (client.getClass() == Client.class) {
-            return new ClientMgd(client.getFirstName(), client.getLastName(), client.getPersonalID(), clientTypeMapper.ModelToMongo(client.getClientType()));
+            ClientMgd clientMgd = new ClientMgd(client.getFirstName(), client.getLastName(), client.getPersonalID(), clientTypeMapper.ModelToMongo(client.getClientType()));
+            clientMgd.setBill(client.getBill());
+            clientMgd.setArchive(client.isArchive());
+            return clientMgd;
         }
         return null;
     }
@@ -23,8 +26,17 @@ public class ClientMapper {
     public Client MongoToModel(ClientMgd client){
         if (client.getClass() == ClientMgd.class){
             System.out.println("~~~~~~~MAP~~~~~");
-            return new Client(client.getFirstName(), client.getLastName(), client.getPersonalID(), clientTypeMapper.MongoToModel(client.getClientType()));
+            Client client1 = new Client(client.getFirstName(), client.getLastName(), client.getPersonalID(), clientTypeMapper.MongoToModel(client.getClientType()));
+            client1.setBill(client.getBill());
+            client1.setArchive(client.isArchive());
+            return client1;
         }
         return null;
+    }
+
+    public ClientMgd DocumentToMongo(Document document){
+        return new ClientMgd(document.get("firstName", String.class), document.get("lastName", String.class),
+                document.get("_id", String.class), clientTypeMapper.DocumentToMongo(document.get("clientType",
+                Document.class)));
     }
 }

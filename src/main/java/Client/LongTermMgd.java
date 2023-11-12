@@ -27,7 +27,7 @@ public class LongTermMgd extends ClientTypeMgd {
         return discount;
     }
 
-    public String getClientInfo() {
-        return "LongTerm";
-    }
+//    public String getClientInfo() {
+//        return "LongTerm";
+//    }
 }

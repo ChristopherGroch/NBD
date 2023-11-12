@@ -39,7 +39,7 @@ public class ClientManagerMgd implements AutoCloseable{
     public void changeClientTypeToStandard(String ID) throws Exception {
         ClientMgd client = clients.getByKey(ID);
         if (client != null) {
-            if (client.getClientType().getClientInfo().equals("ShortTerm")) {
+            if (client.getClientType().getClientType().equals("ShortTerm")) {
                 ClientTypeMgd type = new StandardMgd();
                 client.setClientType(type);
                 clients.save(client);
@@ -54,7 +54,7 @@ public class ClientManagerMgd implements AutoCloseable{
     public void changeClientTypeToLongTerm(String ID) throws Exception {
         ClientMgd client = clients.getByKey(ID);
         if (client != null){
-            if (!client.getClientType().getClientInfo().equals("LongTerm")) {
+            if (!client.getClientType().getClientType().equals("LongTerm")) {
                 ClientTypeMgd type = new LongTermMgd();
                 client.setClientType(type);
                 clients.save(client);

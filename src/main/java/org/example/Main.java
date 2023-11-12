@@ -1,11 +1,13 @@
 package org.example;
 
 import Client.*;
+import Managers.ClientManagerMgd;
 import Managers.ReservationManager;
 import Managers.RoomManagerMgd;
 import Mappers.*;
 import Mappers.RoomMapper;
 import Repository.AbstractMongoRepo;
+import Repository.ClientMgdRepository;
 import Repository.ReservationMgdRepository;
 import Repository.RoomMgdRepository;
 import Reservation.Reservation;
@@ -23,6 +25,15 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+//        ClientManagerMgd clientManagerMgd = new ClientManagerMgd();
+//        clientManagerMgd.registerClient("test", "dasd", "1", new ShortTermMgd());
+//        clientManagerMgd.close();
+
+//        ClientMgdRepository clientMgdRepository = new ClientMgdRepository();
+//        ClientMgd clientMgd = new ClientMgd("test", "dasd", "1", new ShortTermMgd());
+//        clientMgdRepository.save(clientMgd);
+//      clientManagerMgd.deleteClient("1");
+
 //        try (RoomMgdRepository mongoRepository = new RoomMgdRepository()) {
 ////            mongoRepository.deleteCollection();
 ////            mongoRepository.createCollection();

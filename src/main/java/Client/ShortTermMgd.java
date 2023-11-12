@@ -27,7 +27,7 @@ public class ShortTermMgd extends ClientTypeMgd {
         return discount;
     }
 
-    public String getClientInfo() {
-        return "ShortTerm";
-    }
+//    public String getClientInfo() {
+//        return clientType;
+//    }
 }

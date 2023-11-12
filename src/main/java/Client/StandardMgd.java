@@ -27,7 +27,7 @@ public class StandardMgd extends ClientTypeMgd {
         return discount;
     }
 
-    public String getClientInfo() {
-        return "Standard";
-    }
+//    public String getClientInfo() {
+//        return clientType;
+//    }
 }
