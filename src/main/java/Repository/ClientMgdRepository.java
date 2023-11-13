@@ -32,7 +32,6 @@ public class ClientMgdRepository extends AbstractMongoRepo implements Repository
         if(result.isEmpty()){
             return null;
         } else {
-            System.out.println(result);
             return result.get(0);
         }
     }

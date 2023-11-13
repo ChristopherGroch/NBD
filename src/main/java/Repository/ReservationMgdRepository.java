@@ -19,11 +19,7 @@ public class ReservationMgdRepository extends AbstractMongoRepo implements Repos
     public ReservationMgdRepository(){
         super("reservations");
         super.createCollection();
-//        roomMgdRepository = new RoomMgdRepository(super.database);
-//        clientMgdRepository = new ClientMgdRepository(super.database);
     }
-//    private RoomMgdRepository roomMgdRepository;
-//    private ClientMgdRepository clientMgdRepository;
     @Override
     public ReservationMgd getByKey(Integer id) {
         MongoCollection<ReservationMgd> collection =

@@ -25,7 +25,6 @@ public class ClientMapper {
 
     public Client MongoToModel(ClientMgd client){
         if (client.getClass() == ClientMgd.class){
-            System.out.println("~~~~~~~MAP~~~~~");
             Client client1 = new Client(client.getFirstName(), client.getLastName(), client.getPersonalID(), clientTypeMapper.MongoToModel(client.getClientType()));
             client1.setBill(client.getBill());
             client1.setArchive(client.isArchive());

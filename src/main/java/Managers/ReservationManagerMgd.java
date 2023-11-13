@@ -17,15 +17,11 @@ public class ReservationManagerMgd {
 
     private ReservationMgdRepository reservations;
     private ReservationMapper reservationMapper;
-    private ClientMapper clientMapper;
-    private RoomMapper roomMapperr;
     private ClientManagerMgd clientManager;
     private RoomManagerMgd roomManager;
 
     public ReservationManagerMgd() {
         reservations = new ReservationMgdRepository();
-        roomMapperr = new RoomMapper();
-        clientMapper = new ClientMapper();
         reservationMapper = new ReservationMapper();
         clientManager = new ClientManagerMgd(reservations.getDatabase());
         roomManager = new RoomManagerMgd(reservations.getDatabase());
@@ -50,10 +46,8 @@ public class ReservationManagerMgd {
 
             Reservation reservation = new Reservation(extraBonus,guestCount,reservationDays, LocalDateTime.now(),room,client);
             double price = reservation.calculateBaseReservationCost();
-            System.out.println(price);
             if (client.acceptDiscount()) {
                 price = Math.round(price * (1 - calculateDiscount(client)) * 100) / 100.0;
-                System.out.println(calculateDiscount(client));
             }
             reservation.setTotalResrvationCost(price);
 

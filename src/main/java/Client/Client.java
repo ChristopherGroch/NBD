@@ -3,7 +3,6 @@ package Client;
 import jakarta.persistence.*;
 
 public class Client {
-    private long version;
     private String firstName;
     private String lastName;
     private String personalID;

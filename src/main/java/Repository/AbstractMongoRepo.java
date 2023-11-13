@@ -35,10 +35,7 @@ public class AbstractMongoRepo implements AutoCloseable {
     public AbstractMongoRepo(String colName) {
 
         this.collectionName = colName;
-        // Init DB connection
         this.initDbConnection();
-
-        // Delete test collection, if it exists
     }
 
     public void setCollectionName(String collectionName) {
@@ -53,13 +50,9 @@ public class AbstractMongoRepo implements AutoCloseable {
         MongoIterable<String> list = this.database.listCollectionNames();
         for (String name : list) {
             if (name.equals(collectionName)) {
-//                this.database.getCollection(name).drop();
-//                break;
                 return;
             }
         }
-
-        // Create test collection
         this.database.createCollection(collectionName);
     }
     public void deleteCollection(){

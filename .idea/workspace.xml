@@ -5,13 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a91b196b-b874-409a-a6d2-2595ec38ad30" name="Changes" comment="zapomniałem jednego pliku">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d52a89f2-03ff-4020-8bbf-e0edc9367c25.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d52a89f2-03ff-4020-8bbf-e0edc9367c25/storage_v2/_src_/database/NBD.EC0BAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d52a89f2-03ff-4020-8bbf-e0edc9367c25/storage_v2/_src_/database/NBD.EC0BAA/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d52a89f2-03ff-4020-8bbf-e0edc9367c25/storage_v2/_src_/database/NBD.EC0BAA/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d52a89f2-03ff-4020-8bbf-e0edc9367c25/storage_v2/_src_/database/NBD.EC0BAA/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d52a89f2-03ff-4020-8bbf-e0edc9367c25/storage_v2/_src_/database/postgres.edMnLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d52a89f2-03ff-4020-8bbf-e0edc9367c25/storage_v2/_src_/database/postgres.edMnLQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d52a89f2-03ff-4020-8bbf-e0edc9367c25/storage_v2/_src_/database/postgres.edMnLQ/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d52a89f2-03ff-4020-8bbf-e0edc9367c25/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mongod.conf" beforeDir="false" afterPath="$PROJECT_DIR$/mongod.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Docker/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Docker/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keyFile" beforeDir="false" afterPath="$PROJECT_DIR$/Docker/keyFile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mongoDB.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mongod.conf" beforeDir="false" afterPath="$PROJECT_DIR$/Docker/mongod.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/ClientMgd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/ClientMgd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Managers/ClientManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Managers/ReservationManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Managers/ReservationManagerMgd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Managers/ReservationManagerMgd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Managers/RoomManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Mappers/ClientMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Mappers/ClientMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Repository/AbstractMongoRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Repository/AbstractMongoRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/ClientMgdRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Repository/ClientMgdRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/ClientRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/ReservationMgdRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Repository/ReservationMgdRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/ReservationRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Repository/RoomRepository.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ClientManagerMgdTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ClientManagerMgdTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ClientManagerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ClientRepositoryTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ReservationManagerMgdTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ReservationManagerMgdTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ReservationManagerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ReservationMgdRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ReservationMgdRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ReservationRepositoryTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/RoomManagerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/RoomRepositoryTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +92,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -69,7 +102,12 @@
     ]
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Docker" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.All in NBD">
     <configuration name="All in NBD" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="NBD" />
       <option name="PACKAGE_NAME" value="" />
@@ -78,41 +116,41 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ClientManagerTest.unregisterTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ReservationManagerMgdTest.registerReservationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="NBD" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ClientManagerTest" />
-      <option name="METHOD_NAME" value="unregisterTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ReservationManagerTest.deleteingTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="NBD" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ReservationManagerTest" />
-      <option name="METHOD_NAME" value="deleteingTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ReservationManagerTest.endResrvationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="NBD" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ReservationManagerTest" />
-      <option name="METHOD_NAME" value="endResrvationTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ReservationManagerTest.registerReservationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="NBD" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ReservationManagerTest" />
+      <option name="MAIN_CLASS_NAME" value="ReservationManagerMgdTest" />
       <option name="METHOD_NAME" value="registerReservationTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RoomMgdRepositoryTest.testGetByKey" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="NBD" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="RoomMgdRepositoryTest" />
+      <option name="METHOD_NAME" value="testGetByKey" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RoomMgdRepositoryTest.testGetRoomWithPoolByKey" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="NBD" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="RoomMgdRepositoryTest" />
+      <option name="METHOD_NAME" value="testGetRoomWithPoolByKey" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RoomMgdRepositoryTest.testGetRoomWithTerraceByKey" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="NBD" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="RoomMgdRepositoryTest" />
+      <option name="METHOD_NAME" value="testGetRoomWithTerraceByKey" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -121,10 +159,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in NBD" />
-        <item itemvalue="JUnit.ReservationManagerTest.deleteingTest" />
-        <item itemvalue="JUnit.ReservationManagerTest.registerReservationTest" />
-        <item itemvalue="JUnit.ReservationManagerTest.endResrvationTest" />
-        <item itemvalue="JUnit.ClientManagerTest.unregisterTest" />
+        <item itemvalue="JUnit.ReservationManagerMgdTest.registerReservationTest" />
+        <item itemvalue="JUnit.RoomMgdRepositoryTest.testGetByKey" />
+        <item itemvalue="JUnit.RoomMgdRepositoryTest.testGetRoomWithPoolByKey" />
+        <item itemvalue="JUnit.RoomMgdRepositoryTest.testGetRoomWithTerraceByKey" />
       </list>
     </recent_temporary>
   </component>
@@ -141,6 +179,7 @@
       <workItem from="1697555446729" duration="392000" />
       <workItem from="1697565546190" duration="20507000" />
       <workItem from="1699638071644" duration="1287000" />
+      <workItem from="1699861075998" duration="2104000" />
     </task>
     <task id="LOCAL-00001" summary="Zaraz koniec">
       <option name="closed" value="true" />

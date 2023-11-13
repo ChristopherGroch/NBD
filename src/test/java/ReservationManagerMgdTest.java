@@ -100,7 +100,6 @@ public class ReservationManagerMgdTest {
         assertTrue(RM.getReservation(id).isActive());
         RM.endReservation(id);
         assertFalse(RM.getReservation(id).isActive());
-        System.out.println(RoM.getRoomByID(1).isUsed());
         assertFalse(RoM.getRoomByID(1).isUsed());
 
         RM.deleteReservation(id);

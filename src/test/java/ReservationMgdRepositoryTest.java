@@ -25,7 +25,6 @@ public class ReservationMgdRepositoryTest {
         Client client = new Client("Jan", "Nowak", "44", new Standard());
         Reservation reservation = new Reservation(Reservation.ExtraBonus.A, 5, 5, LocalDateTime.of(2023,10,17,22,36), room, client);
         reservationRepository.createNewReservation(reservation);
-        System.out.println(reservationRepository.getAllRecords());
         int uuid = reservationRepository.getAllRecords().get(0).getId();
         ReservationMgd reservation1 = reservationRepository.getByKey(uuid);
         assertSame(reservation1.getExtraBonus(), reservation.getExtraBonus());

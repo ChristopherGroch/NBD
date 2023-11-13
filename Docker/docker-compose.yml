@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   mongo_1:
-    build: .
+    build: ..
     image: mongocustom:6.0.2
     container_name: mongo_1
     hostname: mongo_1
@@ -20,7 +20,7 @@ services:
       retries: 5
 
   mongo_2:
-    build: .
+    build: ..
     image: mongocustom:6.0.2
     container_name: mongo_2
     hostname: mongo_2
@@ -39,7 +39,7 @@ services:
       retries: 5
 
   mongo_3:
-    build: .
+    build: ..
     image: mongocustom:6.0.2
     container_name: mongo_3
     hostname: mongo_3
@@ -58,7 +58,7 @@ services:
       retries: 5
 
   mongoInit:
-    build: .
+    build: ..
     image: mongocustom:6.0.2
     hostname: mongoinit
     networks:

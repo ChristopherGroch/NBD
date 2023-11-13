@@ -138,8 +138,6 @@ public class ClientManagerMgdTest {
         assertNull(CM.getClientByID("03"));
 
         CM.deleteClient("01");
-        System.out.println(CM.getAllClients());
-        System.out.println(CM.getAllClients().size());
     }
 
     @Test
@@ -169,7 +167,6 @@ public class ClientManagerMgdTest {
     public void changeBillTest() throws Exception {
         CM.registerClient("Jan","Kowalski","01",clientType);
         CM.chargeClientBill("01", 10);
-        System.out.println(CM.getClientByID("01").getInfo());
         assertEquals(10, CM.getClientByID("01").getBill());
         CM.deleteClient("01");
     }

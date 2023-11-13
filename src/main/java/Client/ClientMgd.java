@@ -1,12 +1,12 @@
 package Client;
 
 import org.bson.codecs.pojo.annotations.BsonCreator;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
 import java.io.Serializable;
 
 public class ClientMgd implements Serializable {
-    private long version;
     @BsonProperty("firstName")
     private String firstName;
     @BsonProperty("lastName")
@@ -82,7 +82,7 @@ public class ClientMgd implements Serializable {
     public void setClientType(ClientTypeMgd clientType) {
         this.clientType = clientType;
     }
-
+    @BsonIgnore
     public int getMaxDays() {
         return getClientType().getMaxDays();
     }
@@ -91,6 +91,7 @@ public class ClientMgd implements Serializable {
         return getClientType().applyDiscount();
     }
 
+    @BsonIgnore
     public String getInfo() {
         return "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
