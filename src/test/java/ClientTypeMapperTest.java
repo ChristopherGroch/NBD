@@ -44,24 +44,5 @@ public class ClientTypeMapperTest {
         ClientTypeMgd longTermMgd = clientTypeMapper.ModelToMongo(longTerm);
         assertEquals(LongTermMgd.class, longTermMgd.getClass());
     }
-
-
-    @Test
-    public void DocumentToMogoTest(){
-        Document document = new Document().append("clientType", "ShortTerm");
-        ClientTypeMgd clientMgd = clientTypeMapper.DocumentToMongo(document);
-        assertEquals(ShortTermMgd.class, clientMgd.getClass());
-        assertEquals("ShortTerm", clientMgd.getClientType());
-
-        Document document1 = new Document().append("clientType", "Standard");
-        ClientTypeMgd clientMgd1 = clientTypeMapper.DocumentToMongo(document1);
-        assertEquals(StandardMgd.class, clientMgd1.getClass());
-        assertEquals("Standard", clientMgd1.getClientType());
-
-        Document document2 = new Document().append("clientType", "LongTerm");
-        ClientTypeMgd clientMgd2 = clientTypeMapper.DocumentToMongo(document2);
-        assertEquals(LongTermMgd.class, clientMgd2.getClass());
-        assertEquals("LongTerm", clientMgd2.getClientType());
-    }
-
+    
 }

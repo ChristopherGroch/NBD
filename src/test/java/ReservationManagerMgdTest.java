@@ -13,6 +13,7 @@ import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.Conventions;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.List;
@@ -35,6 +36,7 @@ public class ReservationManagerMgdTest {
             "admin", "admin", "password".toCharArray());
 
     private static final CodecRegistry pojoCodecRegistry = CodecRegistries.fromProviders(PojoCodecProvider.builder()
+            .register(ClientTypeMgd.class, ShortTermMgd.class, StandardMgd.class, LongTermMgd.class)
             .automatic(true)
             .conventions(List.of(Conventions.ANNOTATION_CONVENTION))
             .build());
@@ -57,6 +59,14 @@ public class ReservationManagerMgdTest {
         CM = new ClientManagerMgd();
         RoM = new RoomManagerMgd();
         clientType =new ShortTermMgd();
+    }
+
+    @AfterAll
+    public static void close() throws Exception {
+        mongoClient.close();
+        CM.close();
+        RoM.close();
+        RM.close();
     }
 
     @Test
@@ -126,11 +136,9 @@ public class ReservationManagerMgdTest {
         RoM.deleteRoom(1);
         RoM.deleteRoom(3);
 
-        //tmp
         RM.deleteReservation(RM.getAllReservations().getLast().getId());
         RM.deleteReservation(RM.getAllReservations().getLast().getId());
         CM.deleteClient("01");
-
     }
 
     @Test

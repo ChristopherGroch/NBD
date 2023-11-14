@@ -14,6 +14,7 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.Conventions;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -51,6 +52,12 @@ public class RoomMgdManagerTest {
 
         mongoClient = MongoClients.create(settings);
         database = mongoClient.getDatabase("NBD");
+    }
+
+    @AfterAll
+    public static void close() throws Exception {
+        mongoClient.close();
+        RM.close();
     }
 
     @Test

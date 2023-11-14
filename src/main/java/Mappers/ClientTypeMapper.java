@@ -29,14 +29,4 @@ public class ClientTypeMapper {
         return null;
     }
 
-    public ClientTypeMgd DocumentToMongo(Document document){
-        if (document.get("clientType").equals("LongTerm")) {
-            return new LongTermMgd();
-        } else if (document.get("clientType").equals("ShortTerm")) {
-            return new ShortTermMgd();
-        } else if (document.get("clientType").equals("Standard")) {
-            return new StandardMgd();
-        }
-        return null;
-    }
 }

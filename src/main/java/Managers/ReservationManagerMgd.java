@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReservationManagerMgd {
+public class ReservationManagerMgd implements AutoCloseable {
 
     private ReservationMgdRepository reservations;
     private ReservationMapper reservationMapper;
@@ -102,6 +102,11 @@ public class ReservationManagerMgd {
             result.add(reservationMapper.MongoToModel(reservation,roomManager.getRoomByID(reservation.getRoomNumber()),clientManager.getClientByID(reservation.getClientPersonalID())));
         }
         return result;
+    }
+
+    @Override
+    public void close() throws Exception {
+        reservations.close();
     }
 
 }

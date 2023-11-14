@@ -1,21 +1,24 @@
-import Client.ClientMgd;
-import Client.ClientTypeMgd;
-import Client.ShortTermMgd;
+import Client.*;
 import Repository.ClientMgdRepository;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import org.bson.UuidRepresentation;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.Conventions;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.bson.conversions.Bson;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,6 +35,7 @@ public class ClientMgdRepositoryTest {
             "admin", "admin", "password".toCharArray());
 
     private static final CodecRegistry pojoCodecRegistry = CodecRegistries.fromProviders(PojoCodecProvider.builder()
+            .register(ClientTypeMgd.class, ShortTermMgd.class, StandardMgd.class, LongTermMgd.class)
             .automatic(true)
             .conventions(List.of(Conventions.ANNOTATION_CONVENTION))
             .build());
@@ -54,7 +58,13 @@ public class ClientMgdRepositoryTest {
                 .build();
 
         mongoClient = MongoClients.create(settings);
-        database = mongoClient.getDatabase("admin");
+        database = mongoClient.getDatabase("NBD");
+    }
+
+    @AfterAll
+    public static void close() throws Exception {
+        mongoClient.close();
+        clientRepository.close();
     }
 
     @Test
@@ -85,12 +95,31 @@ public class ClientMgdRepositoryTest {
     public void testSave() {
         ClientMgd client = new ClientMgd("Jan", "Kowalski", "73", clientType);
         clientRepository.save(client);
-        assertEquals(1, clientRepository.getAllRecords().size());
+
+        MongoCollection<ClientMgd> collection = database.getCollection("clients", ClientMgd.class);
+        ArrayList<ClientMgd> result = collection.find().into(new ArrayList<>());
+        assertEquals(1, result.size());
+
         ClientMgd client1 = new ClientMgd("Marian", "Nowak", "73", clientType);
+        ClientMgd client2 = new ClientMgd("Zbigniew", "", "37", clientType);
         clientRepository.save(client1);
-        assertEquals("Marian", clientRepository.getByKey("73").getFirstName());
-        assertEquals("Nowak", clientRepository.getByKey("73").getLastName());
+        clientRepository.save(client2);
+
+        result = collection.find().into(new ArrayList<>());
+        assertEquals(2, result.size());
+
+        Bson filter = Filters.eq("_id","73");
+        result = collection.find(filter).into(new ArrayList<>());
+        assertEquals("Marian", result.get(0).getFirstName());
+        assertEquals("Nowak", result.get(0).getLastName());
+
+        filter = Filters.eq("_id","37");
+        result = collection.find(filter).into(new ArrayList<>());
+        assertEquals("Zbigniew", result.get(0).getFirstName());
+        assertEquals("", result.get(0).getLastName());
+
         clientRepository.delete(client1);
+        clientRepository.delete(client2);
     }
 
     @Test
@@ -98,6 +127,7 @@ public class ClientMgdRepositoryTest {
         ClientMgd client = new ClientMgd("Jan", "Kowalski", "73", clientType);
         client.setPersonalID("73");
         clientRepository.save(client);
+        assertEquals(1, clientRepository.getAllRecords().size());
         clientRepository.delete(client);
         assertEquals(0, clientRepository.getAllRecords().size());
     }

@@ -37,17 +37,5 @@ public class ClientMapperTest {
         assertEquals(clientMgd.getFirstName(), client.getFirstName());
         assertEquals(clientMgd.getClientType().getClientType(), client.getClientType().getClientType());
     }
-/*
-    @Test
-    public void DocumentToMogoTest(){
-        Document document = new Document().append("_id", "01").append("firstName", "Jan").append("lastName", "Kowalski").append("clientType", "ShortTerm");
-        ClientMgd clientMgd = clientMapper.DocumentToMongo(document);
-        assertEquals(ClientMgd.class, clientMgd.getClass());
-        assertEquals("01", clientMgd.getPersonalID());
-        assertEquals("Kowalski", clientMgd.getLastName());
-        assertEquals("Jan", clientMgd.getFirstName());
-        assertEquals("ShortTerm", clientMgd.getClientType().getClientType());
-    }
 
- */
 }

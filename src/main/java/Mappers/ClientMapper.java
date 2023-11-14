@@ -32,10 +32,4 @@ public class ClientMapper {
         }
         return null;
     }
-
-    public ClientMgd DocumentToMongo(Document document){
-        return new ClientMgd(document.get("firstName", String.class), document.get("lastName", String.class),
-                document.get("_id", String.class), clientTypeMapper.DocumentToMongo(document.get("clientType",
-                Document.class)));
-    }
 }
