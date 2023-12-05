@@ -126,8 +126,8 @@ public class Reservation {
                 ", totalResrvationCost=" + totalResrvationCost +
                 ", beginTime=" + beginTime +
                 ", isActive=" + isActive +
-                ", room=" + room +
-                ", client=" + client +
+                ", room=" + room.getRoomNumber() +
+                ", client=" + client.getPersonalID() +
                 '}';
     }
 }

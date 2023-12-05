@@ -1,11 +1,11 @@
 package Managers;
 
 import Client.Client;
-import Mappers.ClientMapper;
 import Mappers.ReservationMapper;
-import Mappers.RoomMapper;
 import Repository.ReservationMgdRepository;
-import Reservation.Reservation;
+import Repository.ReservationRepositoryDecorator;
+import Repository.ResrvationMgdRepositoryWithRedisCache;
+import Reservation.*;
 import Reservation.ReservationMgd;
 import Room.*;
 
@@ -15,13 +15,13 @@ import java.util.List;
 
 public class ReservationManagerMgd implements AutoCloseable {
 
-    private ReservationMgdRepository reservations;
+    private ReservationRepositoryDecorator reservations;
     private ReservationMapper reservationMapper;
     private ClientManagerMgd clientManager;
     private RoomManagerMgd roomManager;
 
     public ReservationManagerMgd() {
-        reservations = new ReservationMgdRepository();
+        reservations = new ResrvationMgdRepositoryWithRedisCache();
         reservationMapper = new ReservationMapper();
         clientManager = new ClientManagerMgd(reservations.getDatabase());
         roomManager = new RoomManagerMgd(reservations.getDatabase());
@@ -51,7 +51,7 @@ public class ReservationManagerMgd implements AutoCloseable {
             }
             reservation.setTotalResrvationCost(price);
 
-            reservations.createNewReservation(reservation);
+            reservations.create(reservation);
 
         } catch (Exception e){
 
@@ -63,8 +63,8 @@ public class ReservationManagerMgd implements AutoCloseable {
     public double calculateDiscount(Client client) {
         double discount = 0;
         int days = 0;
-        if(reservations.getAllArchive(client.getPersonalID()) != null) {
-            for (ReservationMgd r : reservations.getAllArchive(client.getPersonalID())) {
+        if(reservations.getAllArchiveRecords(client.getPersonalID()) != null) {
+            for (ReservationMgd r : reservations.getAllArchiveRecords(client.getPersonalID())) {
                 days += r.getReservationDays();
             }
         }

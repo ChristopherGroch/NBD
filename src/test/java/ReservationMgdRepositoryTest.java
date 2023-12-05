@@ -72,7 +72,7 @@ public class ReservationMgdRepositoryTest {
         Room room = new Room(144,1,1);
         Client client = new Client("Jan", "Nowak", "44", new Standard());
         Reservation reservation = new Reservation(Reservation.ExtraBonus.A, 5, 5, LocalDateTime.of(2023,10,17,22,36), room, client);
-        reservationRepository.createNewReservation(reservation);
+        reservationRepository.create(reservation);
         int uuid = reservationRepository.getAllRecords().get(0).getId();
         ReservationMgd reservation1 = reservationRepository.getByKey(uuid);
         assertSame(reservation1.getExtraBonus(), reservation.getExtraBonus());
@@ -91,8 +91,8 @@ public class ReservationMgdRepositoryTest {
         Reservation reservation = new Reservation(Reservation.ExtraBonus.A, 5, 5, LocalDateTime.of(2023,10,17,22,36), room, client);
         Reservation reservation1 = new Reservation(Reservation.ExtraBonus.A, 5, 5, LocalDateTime.of(2023,10,17,22,36), room, client);
 
-        reservationRepository.createNewReservation(reservation1);
-        reservationRepository.createNewReservation(reservation);
+        reservationRepository.create(reservation1);
+        reservationRepository.create(reservation);
         assertEquals(2, reservationRepository.getAllRecords().size());
         reservationRepository.delete(reservationRepository.getByKey(reservation.getId()));
         reservationRepository.delete(reservationRepository.getByKey(reservation1.getId()));
@@ -103,7 +103,7 @@ public class ReservationMgdRepositoryTest {
         Room room = new Room(144,1,1);
         Client client = new Client("Jan", "Nowak", "44", new Standard());
         Reservation reservation = new Reservation(Reservation.ExtraBonus.A, 5, 5, LocalDateTime.of(2023,10,17,22,36), room, client);
-        reservationRepository.createNewReservation(reservation);
+        reservationRepository.create(reservation);
         assertEquals(1,reservationRepository.getAllRecords().size());
         assertEquals(Reservation.ExtraBonus.A,reservationRepository.getByKey(reservation.getId()).getExtraBonus());
         assertEquals(5,reservationRepository.getByKey(reservation.getId()).getGuestCount());
@@ -119,7 +119,7 @@ public class ReservationMgdRepositoryTest {
         Room room = new Room(144,1,1);
         Client client = new Client("Jan", "Nowak", "44", new Standard());
         Reservation reservation = new Reservation(Reservation.ExtraBonus.A, 5, 5, LocalDateTime.of(2023,10,17,22,36), room, client);
-        reservationRepository.createNewReservation(reservation);
+        reservationRepository.create(reservation);
         reservationRepository.delete(reservationRepository.getByKey(reservation.getId()));
         assertEquals(0,reservationRepository.getAllRecords().size());
         assertThrows(Exception.class, () -> {
@@ -142,10 +142,10 @@ public class ReservationMgdRepositoryTest {
         reservationRepository.save(reservation1);
         reservationRepository.save(reservation2);
 
-        assertEquals(2, reservationRepository.getAllArchive("01").size());
+        assertEquals(2, reservationRepository.getAllArchiveRecords("01").size());
         reservation1.setActive(false);
         reservationRepository.save(reservation1);
-        assertEquals(3, reservationRepository.getAllArchive("01").size());
+        assertEquals(3, reservationRepository.getAllArchiveRecords("01").size());
         reservationRepository.delete(reservationRepository.getByKey(reservation.getId()));
         reservationRepository.delete(reservationRepository.getByKey(reservation1.getId()));
         reservationRepository.delete(reservationRepository.getByKey(reservation2.getId()));

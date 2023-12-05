@@ -1,5 +1,6 @@
 package Repository;
 
+import Client.Client;
 import Client.ClientMgd;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -11,7 +12,7 @@ import org.bson.conversions.Bson;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientMgdRepository extends AbstractMongoRepo implements Repository<ClientMgd,String>{
+public class ClientMgdRepository extends AbstractMongoRepo implements Repository<ClientMgd,String, Client,String>{
 
     public ClientMgdRepository() {
         super("clients");
@@ -44,6 +45,11 @@ public class ClientMgdRepository extends AbstractMongoRepo implements Repository
     }
 
     @Override
+    public void create(Client o) {
+
+    }
+
+    @Override
     public void save(ClientMgd cl) {
         MongoCollection<ClientMgd> collection =
                 this.database.getCollection(collectionName, ClientMgd.class);
@@ -70,5 +76,10 @@ public class ClientMgdRepository extends AbstractMongoRepo implements Repository
         MongoCollection<ClientMgd> collection =
                 this.database.getCollection(collectionName, ClientMgd.class);
         return collection.find().into(new ArrayList<>());
+    }
+
+    @Override
+    public List<ClientMgd> getAllArchiveRecords(String o) {
+        return null;
     }
 }

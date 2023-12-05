@@ -48,11 +48,12 @@ public class AbstractMongoRepo implements AutoCloseable {
 
     public void createCollection(){
         MongoIterable<String> list = this.database.listCollectionNames();
-        for (String name : list) {
-            if (name.equals(collectionName)) {
-                return;
-            }
-        }
+//        for (String name : list) {
+//            if (name.equals(collectionName)) {
+//                return;
+//            }
+//        }
+        this.database.getCollection(collectionName).drop();
         this.database.createCollection(collectionName);
     }
     public void deleteCollection(){

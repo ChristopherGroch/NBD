@@ -15,7 +15,7 @@ import org.bson.conversions.Bson;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReservationMgdRepository extends AbstractMongoRepo implements Repository<ReservationMgd,Integer>{
+public class ReservationMgdRepository extends AbstractMongoRepo implements Repository<ReservationMgd,Integer,Reservation,String>{
     public ReservationMgdRepository(){
         super("reservations");
         super.createCollection();
@@ -46,7 +46,8 @@ public class ReservationMgdRepository extends AbstractMongoRepo implements Repos
             collection.updateOne(filter, set, new UpdateOptions().upsert(false));
         }
     }
-    public void createNewReservation(Reservation reservation) throws Exception{
+    @Override
+    public void create(Reservation reservation) throws Exception{
         Integer id = (int) ((Math.random() * (getAllRecords().size() + 100000)) + 0);
         while (getByKey(id) != null){
             id = (int) ((Math.random() * (getAllRecords().size() + 100000)) + 0);
@@ -61,7 +62,7 @@ public class ReservationMgdRepository extends AbstractMongoRepo implements Repos
                     this.database.getCollection(collectionName, ReservationMgd.class);
             collection.insertOne(clientSession,result);
             changeRoomState(clientSession,result.getRoomNumber());
-            changeBill(reservation.getClient().getPersonalID(),reservation.getTotalResrvationCost());
+            changeBill(clientSession,reservation.getClient().getPersonalID(),reservation.getTotalResrvationCost());
             clientSession.commitTransaction();
         }catch (Exception e){
             clientSession.abortTransaction();
@@ -78,12 +79,12 @@ public class ReservationMgdRepository extends AbstractMongoRepo implements Repos
         Bson update = Updates.inc("used",1);
         collection.updateOne(clientSession,filter,update);
     }
-    private void changeBill(String id,double x){
+    private void changeBill(ClientSession clientSession,String id,double x){
         MongoCollection<ClientMgd> collection =
                 this.database.getCollection("clients", ClientMgd.class);
         Bson filter = Filters.eq("_id",id);
         Bson update = Updates.inc("bill",x);
-        collection.updateOne(filter,update);
+        collection.updateOne(clientSession,filter,update);
     }
 
     @Override
@@ -100,7 +101,8 @@ public class ReservationMgdRepository extends AbstractMongoRepo implements Repos
                 this.database.getCollection(collectionName, ReservationMgd.class);
         return collection.find().into(new ArrayList<>());
     }
-    public List<ReservationMgd> getAllArchive(String ID){
+    @Override
+    public List<ReservationMgd> getAllArchiveRecords(String ID){
         MongoCollection<ReservationMgd> collection =
                 this.database.getCollection(collectionName, ReservationMgd.class);
         Bson filter = Filters.and(Filters.eq("clientPersonalID",ID),Filters.eq("active",false));

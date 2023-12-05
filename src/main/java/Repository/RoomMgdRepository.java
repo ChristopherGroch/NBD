@@ -1,7 +1,7 @@
 package Repository;
 
 import Managers.RoomManagerMgd;
-import Room.RoomMgd;
+import Room.*;
 import Room.RoomWithPoolMgd;
 import Room.RoomWithTerrace;
 import Room.RoomWithTerraceMgd;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RoomMgdRepository extends AbstractMongoRepo implements Repository<RoomMgd,Integer>{
+public class RoomMgdRepository extends AbstractMongoRepo implements Repository<RoomMgd,Integer,Room,Integer>{
 
     public RoomMgdRepository() {
         super("rooms");
@@ -42,6 +42,12 @@ public class RoomMgdRepository extends AbstractMongoRepo implements Repository<R
             super.database.createCollection(super.collectionName,createCollectionOptions);
         }
     }
+
+    @Override
+    public void create(Room o) throws Exception{
+
+    }
+
     public RoomMgdRepository(MongoDatabase database){
         super.database = database;
         super.setCollectionName("rooms");
@@ -130,5 +136,10 @@ public class RoomMgdRepository extends AbstractMongoRepo implements Repository<R
         MongoCollection<RoomMgd> collection =
                 this.database.getCollection(collectionName, RoomMgd.class);
         return collection.find().into(new ArrayList<>());
+    }
+
+    @Override
+    public List<RoomMgd> getAllArchiveRecords(Integer o) {
+        return null;
     }
 }
