@@ -1,7 +1,6 @@
 package Room;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import java.util.Objects;
 
 public class RoomWithTerrace extends Room{
     private double terraceSurface;
@@ -29,5 +28,19 @@ public class RoomWithTerrace extends Room{
             return getBasePricePerNight()*1.2;
         else
             return getBasePricePerNight()*1.5;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        RoomWithTerrace that = (RoomWithTerrace) o;
+        return Double.compare(terraceSurface, that.terraceSurface) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), terraceSurface);
     }
 }

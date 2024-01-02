@@ -1,6 +1,8 @@
 package Room;
 
 
+import java.util.Objects;
+
 public class Room {
 
     private Integer roomNumber;
@@ -44,5 +46,18 @@ public class Room {
     }
     public double getFinalPricePerNight(){
         return getBasePricePerNight();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return Double.compare(basePricePerNight, room.basePricePerNight) == 0 && bedCount == room.bedCount && used == room.used && Objects.equals(roomNumber, room.roomNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(roomNumber, basePricePerNight, bedCount, used);
     }
 }

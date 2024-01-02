@@ -2,11 +2,9 @@ package Reservation;
 
 import Room.Room;
 import Client.*;
-import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 import java.util.UUID;
 import java.time.LocalDateTime;
 
@@ -29,7 +27,7 @@ public class Reservation {
     private Client client;
     public Reservation() {}
 
-    public Reservation(ExtraBonus extraBonus, int guestCount, int reservationDays,  LocalDateTime beginTime, Room room, Client client) {
+    public Reservation(ExtraBonus extraBonus, int guestCount, int reservationDays, LocalDateTime beginTime, Room room, Client client) {
         this.extraBonus = extraBonus;
         this.guestCount = guestCount;
         this.reservationDays = reservationDays;
@@ -126,8 +124,21 @@ public class Reservation {
                 ", totalResrvationCost=" + totalResrvationCost +
                 ", beginTime=" + beginTime +
                 ", isActive=" + isActive +
-                ", room=" + room.getRoomNumber() +
-                ", client=" + client.getPersonalID() +
+                ", room=" + room +
+                ", client=" + client +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reservation that = (Reservation) o;
+        return guestCount == that.guestCount && reservationDays == that.reservationDays && Double.compare(totalResrvationCost, that.totalResrvationCost) == 0 && isActive == that.isActive && extraBonus == that.extraBonus && Objects.equals(id, that.id) && Objects.equals(beginTime, that.beginTime) && Objects.equals(room, that.room) && Objects.equals(client, that.client);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(extraBonus, guestCount, reservationDays, id, totalResrvationCost, beginTime, isActive, room, client);
     }
 }

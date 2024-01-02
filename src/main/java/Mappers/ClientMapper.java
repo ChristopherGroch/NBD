@@ -1,35 +1,33 @@
 package Mappers;
 
-import Client.Client;
-import Client.ClientMgd;
-import org.bson.Document;
-
+import Client.*;
 
 public class ClientMapper {
 
-    private ClientTypeMapper clientTypeMapper;
-
-    public ClientMapper() {
-        this.clientTypeMapper = new ClientTypeMapper();
-    }
-
-    public ClientMgd ModelToMongo(Client client) {
-        if (client.getClass() == Client.class) {
-            ClientMgd clientMgd = new ClientMgd(client.getFirstName(), client.getLastName(), client.getPersonalID(), clientTypeMapper.ModelToMongo(client.getClientType()));
-            clientMgd.setBill(client.getBill());
-            clientMgd.setArchive(client.isArchive());
-            return clientMgd;
+    public static Client CassandraToModel(ClientCas clientCas){
+        ClientType clientType;
+        switch (clientCas.getClientType()){
+            case "Standard":
+                clientType = new Standard();
+                break;
+            case "LongTerm":
+                clientType = new LongTerm();
+                break;
+            default:
+                clientType = new ShortTerm();
+                break;
         }
-        return null;
+        Client result = new Client(clientCas.getFirstName(), clientCas.getLastName(), clientCas.getPersonalID(), clientType);
+        result.setArchive(clientCas.isArchive());
+        result.setBill(clientCas.getBill());
+        return result;
     }
 
-    public Client MongoToModel(ClientMgd client){
-        if (client.getClass() == ClientMgd.class){
-            Client client1 = new Client(client.getFirstName(), client.getLastName(), client.getPersonalID(), clientTypeMapper.MongoToModel(client.getClientType()));
-            client1.setBill(client.getBill());
-            client1.setArchive(client.isArchive());
-            return client1;
-        }
-        return null;
+    public static ClientCas ModelToCassandra(Client client){
+        ClientCas clientCas = new ClientCas(client.getFirstName(), client.getLastName(), client.getPersonalID(),
+                client.getClientType().getClientType());
+        clientCas.setBill(client.getBill());
+        return clientCas;
     }
+
 }
